@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model countries {
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  capital        String
+  area           String
+  population     Int
+  economy        Int
+  gdp            Int
+  import         Int
+  export         Int
+  countriesgroup countriesgroup[]
+  // majorcountriesgroup majorcountriesgroup[]
+}
+
+model countriesgroup {
+  id                  String              @id @default(auto()) @map("_id") @db.ObjectId
+  name                String
+  headquartersId      String              @db.ObjectId
+  countries           countries           @relation(fields: [headquartersId], references: [id])
+  motive              String
+  majorgroup          String            @db.ObjectId
+  countriesgrouparray majorcountriesgroup @relation(fields: [majorgroup], references: [id])
+}
+
+model majorcountriesgroup {
+  id                  String           @id @default(auto()) @map("_id") @db.ObjectId
+  title               String
+  // groupheadquarter    String           @db.ObjectId
+  // countrieshq         countries        @relation(fields: [groupheadquarter], references: [id])
+  majorcountriesgroup countriesgroup[]
+}

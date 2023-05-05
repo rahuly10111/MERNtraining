@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import UserModel from '../config/userDetailSchema';
-import { connection } from '../config/db';
-//connection();
+
 class userDetailController {
     async getuserdetail(req: Request, res: Response) {
         let userData = await UserModel.find()
