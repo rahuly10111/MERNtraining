@@ -1,22 +1,21 @@
 import { Request, Response } from "express";
 import { responseModel } from "../../../interface";
-import { userdetail } from "../../model/userinterface";
-import userRepositary from '../../repository/index'
+import { commentsdetails } from "../../model/commentsinterface";
+import commentsRepositary from '../../repository/index'
 
 let response = new responseModel;
-class usercontroller {
-    async postpostdetails(req: Request, res: Response) {
-        const userdatas: userdetail = {
-            name: req.body.name,
-            gender: req.body.gender,
-            age: req.body.age
+class commentscontroller {
+    async postcommentsdetails(req: Request, res: Response) {
+        const commentsdata: commentsdetails = {
+            commenttext: req.body.commenttext,
+            postid: req.body.postid
         }
-        console.log(userdatas);
+
         try {
-            const userresponse = await userRepositary.userRepositary.createuser(userdatas);
+            const commentsresponse = await commentsRepositary.commentsRepositary.createcomments(commentsdata);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = commentsresponse
 
         } catch (error) {
             console.log(error);
@@ -29,14 +28,13 @@ class usercontroller {
 
     }
 
-    async getuserdetails(req: Request, res: Response) {
-
+    async getcommentsdetails(req: Request, res: Response) {
 
         try {
-            const userresponse = await userRepositary.userRepositary.getuser();
+            const commentsresponse = await commentsRepositary.commentsRepositary.getcomments();
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = commentsresponse
 
         } catch (error) {
             console.log(error);
@@ -49,14 +47,14 @@ class usercontroller {
 
     }
 
-    async deleteuserdetails(req: Request, res: Response) {
-        const userid = req.params.id;
+    async deletecommentsdetails(req: Request, res: Response) {
+        const commentsid = req.params.id;
 
         try {
-            const userresponse = await userRepositary.userRepositary.deleteuser(userid);
+            const commentsresponse = await commentsRepositary.commentsRepositary.deletecomments(commentsid);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = commentsresponse
 
         } catch (error) {
             console.log(error);
@@ -67,21 +65,21 @@ class usercontroller {
         res.send(response);
 
 
+
     }
 
-    async putuserdetails(req: Request, res: Response) {
-        const userid = req.params.id;
+    async putcommentsdetails(req: Request, res: Response) {
+        const commentsid = req.params.id;
 
         try {
-            const dataToUpdate: userdetail = {
-                name: req.body.name,
-                gender: req.body.gender,
-                age: req.body.age
+            const dataToUpdate: commentsdetails = {
+                commenttext: req.body.commenttext,
+                postid: req.body.postid
             }
-            const userresponse = await userRepositary.userRepositary.putuser(dataToUpdate, userid);
+            const commentsresponse = await commentsRepositary.commentsRepositary.putcomments(dataToUpdate, commentsid);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = commentsresponse
 
         } catch (error) {
             console.log(error);
@@ -93,10 +91,9 @@ class usercontroller {
 
 
 
-
     }
 
-    async sortinguserdetails(req: Request, res: Response) {
+    async sortingcommentsdetails(req: Request, res: Response) {
         const sortstring = req.params.sort;
         let sortOrder: any;
         if (sortstring.toLowerCase() === 'asc') {
@@ -107,12 +104,11 @@ class usercontroller {
             res.status(400).send('Invalid sort order');
             return;
         }
-
         try {
-            const userresponse = await userRepositary.userRepositary.sortinguser(sortOrder);
+            const commentsresponse = await commentsRepositary.commentsRepositary.sortingcomments(sortOrder);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = commentsresponse
 
         } catch (error) {
             console.log(error);
@@ -123,16 +119,16 @@ class usercontroller {
         res.send(response);
 
 
+
     }
 
-    async searchuserdetails(req: Request, res: Response) {
+    async searchcommentsdetails(req: Request, res: Response) {
         const searchstring = req.params.search;
-
         try {
-            const userresponse = await userRepositary.userRepositary.searchuser(searchstring);
+            const commentsresponse = await commentsRepositary.commentsRepositary.searchcomments(searchstring);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = commentsresponse
 
         } catch (error) {
             console.log(error);
@@ -146,13 +142,12 @@ class usercontroller {
 
     }
 
-    async filteruserdetails(req: Request, res: Response) {
-
+    async filtercommentsdetails(req: Request, res: Response) {
         try {
-            const userresponse = await userRepositary.userRepositary.filteruser();
+            const commentsresponse = await commentsRepositary.commentsRepositary.filtercomments();
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = commentsresponse
 
         } catch (error) {
             console.log(error);
@@ -162,13 +157,10 @@ class usercontroller {
         }
         res.send(response);
 
-
     }
-
-
 
 
 
 }
 
-export default new usercontroller();
+export default new commentscontroller();

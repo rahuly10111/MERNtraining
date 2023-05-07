@@ -7,7 +7,9 @@ class countryrepository {
     async createuser(usermodel: userdetail) {
         let responseuser = await prisma.user.create({
             data: {
-                name: usermodel.name
+                name: usermodel.name,
+                gender: usermodel.gender,
+                age: usermodel.age
             }
         })
         return responseuser;
@@ -18,10 +20,10 @@ class countryrepository {
             // select:{
             //     name:true
             // }
-            include: {
-                post: true
+            // include: {
+            //     post: true
 
-            }
+            // }
             // include: {
             //     post:{
             //         where:{
@@ -30,11 +32,11 @@ class countryrepository {
             //     }
             //  }
 
-            // include: {
-            //     _count: {
-            //         select: { post: true },
-            //     },
-            // },
+            include: {
+                _count: {
+                    select: { post: true },
+                },
+            },
 
             // select: {
             //     post: {
@@ -65,6 +67,59 @@ class countryrepository {
         });
         return responseuser;
     }
+
+    async deleteuser(userid: any) {
+        let responseuser = await prisma.user.delete({
+            where: { id: userid },
+        })
+        return responseuser;
+    }
+
+    async putuser(dataToUpdate: any, userid: any) {
+        let responseuser = await prisma.user.update({
+            where: { id: userid },
+            data: dataToUpdate
+        })
+        return responseuser;
+    }
+
+    async sortinguser(sortOrder: any,) {
+        const responseuser = await prisma.user.findMany({
+            orderBy: {
+                name: sortOrder
+            }
+        });
+        return responseuser
+    }
+
+    async searchuser(searchstring: string) {
+        const responseuser = await prisma.user.findMany({
+            where: {
+                OR: [
+                    { name: { contains: searchstring, mode: "insensitive" } },
+                    { gender: { contains: searchstring, mode: "insensitive" } },
+                ],
+            },
+        });
+        return responseuser;
+    }
+
+    async filteruser() {
+        const responseuser = await prisma.user.findMany({
+            where: {
+                // OR: [
+                //     { population: { gt: 100000000 } },
+                //     { economy: { gte: 4534 } }
+                //   ]
+                // AND: [
+                //     { population: { gt: 100000000 } },
+                //     { economy: { gte: 2 } }
+                // ]
+            },
+        });
+        return responseuser;
+    }
+
 
 
 }

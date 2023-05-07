@@ -1,22 +1,21 @@
 import { Request, Response } from "express";
 import { responseModel } from "../../../interface";
-import { userdetail } from "../../model/userinterface";
-import userRepositary from '../../repository/index'
+import { categorydetails } from "../../model/categoryinterface";
+import categoryRepositary from '../../repository/index'
 
 let response = new responseModel;
-class usercontroller {
-    async postpostdetails(req: Request, res: Response) {
-        const userdatas: userdetail = {
-            name: req.body.name,
-            gender: req.body.gender,
-            age: req.body.age
+class categorycontroller {
+    async postcategorydetails(req: Request, res: Response) {
+        const categorydata: categorydetails = {
+            categoryname: req.body.categoryname,
+            postid: req.body.postid
         }
-        console.log(userdatas);
+
         try {
-            const userresponse = await userRepositary.userRepositary.createuser(userdatas);
+            const categoryresponse = await categoryRepositary.categoryRepositary.createcategory(categorydata);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = categoryresponse
 
         } catch (error) {
             console.log(error);
@@ -29,14 +28,13 @@ class usercontroller {
 
     }
 
-    async getuserdetails(req: Request, res: Response) {
-
+    async getcategorydetails(req: Request, res: Response) {
 
         try {
-            const userresponse = await userRepositary.userRepositary.getuser();
+            const categoryresponse = await categoryRepositary.categoryRepositary.getcategory();
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = categoryresponse
 
         } catch (error) {
             console.log(error);
@@ -49,14 +47,14 @@ class usercontroller {
 
     }
 
-    async deleteuserdetails(req: Request, res: Response) {
-        const userid = req.params.id;
+    async deletecategorydetails(req: Request, res: Response) {
+        const categoryid = req.params.id;
 
         try {
-            const userresponse = await userRepositary.userRepositary.deleteuser(userid);
+            const categoryresponse = await categoryRepositary.categoryRepositary.deletecategory(categoryid);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = categoryresponse
 
         } catch (error) {
             console.log(error);
@@ -67,21 +65,21 @@ class usercontroller {
         res.send(response);
 
 
+
     }
 
-    async putuserdetails(req: Request, res: Response) {
-        const userid = req.params.id;
+    async putcategorydetails(req: Request, res: Response) {
+        const categoryid = req.params.id;
 
         try {
-            const dataToUpdate: userdetail = {
-                name: req.body.name,
-                gender: req.body.gender,
-                age: req.body.age
+            const dataToUpdate: categorydetails = {
+                categoryname: req.body.categoryname,
+                postid: req.body.postid
             }
-            const userresponse = await userRepositary.userRepositary.putuser(dataToUpdate, userid);
+            const categoryresponse = await categoryRepositary.categoryRepositary.putcategory(dataToUpdate, categoryid);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = categoryresponse
 
         } catch (error) {
             console.log(error);
@@ -93,10 +91,9 @@ class usercontroller {
 
 
 
-
     }
 
-    async sortinguserdetails(req: Request, res: Response) {
+    async sortingcategorydetails(req: Request, res: Response) {
         const sortstring = req.params.sort;
         let sortOrder: any;
         if (sortstring.toLowerCase() === 'asc') {
@@ -104,15 +101,14 @@ class usercontroller {
         } else if (sortstring.toLowerCase() === 'desc') {
             sortOrder = 'desc';
         } else {
-            res.status(400).send('Invalid sort order');
+             res.status(400).send('Invalid sort order');
             return;
         }
-
         try {
-            const userresponse = await userRepositary.userRepositary.sortinguser(sortOrder);
+            const categoryresponse = await categoryRepositary.categoryRepositary.sortingcategory(sortOrder);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = categoryresponse
 
         } catch (error) {
             console.log(error);
@@ -123,16 +119,16 @@ class usercontroller {
         res.send(response);
 
 
+
     }
 
-    async searchuserdetails(req: Request, res: Response) {
+    async searchcategorydetails(req: Request, res: Response) {
         const searchstring = req.params.search;
-
         try {
-            const userresponse = await userRepositary.userRepositary.searchuser(searchstring);
+            const categoryresponse = await categoryRepositary.categoryRepositary.searchcategory(searchstring);
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = categoryresponse
 
         } catch (error) {
             console.log(error);
@@ -146,13 +142,12 @@ class usercontroller {
 
     }
 
-    async filteruserdetails(req: Request, res: Response) {
-
+    async filtercategorydetails(req: Request, res: Response) {
         try {
-            const userresponse = await userRepositary.userRepositary.filteruser();
+            const categoryresponse = await categoryRepositary.categoryRepositary.filtercategory();
             response.status = 200
             response.message = " data Filter success "
-            response.data = userresponse
+            response.data = categoryresponse
 
         } catch (error) {
             console.log(error);
@@ -163,12 +158,11 @@ class usercontroller {
         res.send(response);
 
 
+
     }
-
-
 
 
 
 }
 
-export default new usercontroller();
+export default new categorycontroller();
