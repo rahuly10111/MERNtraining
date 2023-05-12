@@ -11,9 +11,9 @@ router.delete('/deletecomments/:id', commentscontroller.commentscontroller.delet
 
 router.put('/putcomments/:id', commentscontroller.commentscontroller.putcommentsdetails);
 
-router.get('/sortingcomments/:sort', commentscontroller.commentscontroller.sortingcommentsdetails);
+router.get('/sortsearchcomments/:sort', commentscontroller.commentscontroller.sortingSearchCommentsdetails);
 
-router.get('/searchcomments/:search', commentscontroller.commentscontroller.searchcommentsdetails);
+//router.get('/searchcomments/:search', commentscontroller.commentscontroller.searchcommentsdetails);
 
 router.get('/filtercomments', commentscontroller.commentscontroller.filtercommentsdetails);
 

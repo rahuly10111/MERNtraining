@@ -11,9 +11,9 @@ router.delete('/deletecategory/:id', categorycontroller.categorycontroller.delet
 
 router.put('/putcategory/:id', categorycontroller.categorycontroller.putcategorydetails);
 
-router.get('/sortingcategory/:sort', categorycontroller.categorycontroller.sortingcategorydetails);
+router.get('/sortingcategory/:sort', categorycontroller.categorycontroller.sortingSearchCategoryDetails);
 
-router.get('/searchcategory/:search', categorycontroller.categorycontroller.searchcategorydetails);
+//router.get('/searchcategory/:search', categorycontroller.categorycontroller.searchcategorydetails);
 
 router.get('/filtercategory', categorycontroller.categorycontroller.filtercategorydetails);
 

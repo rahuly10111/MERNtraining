@@ -15,7 +15,7 @@ class usercontroller {
         try {
             const userresponse = await userRepositary.userRepositary.createuser(userdatas);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " User  data Added success "
             response.data = userresponse
 
         } catch (error) {
@@ -35,7 +35,7 @@ class usercontroller {
         try {
             const userresponse = await userRepositary.userRepositary.getuser();
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " User  data Get success "
             response.data = userresponse
 
         } catch (error) {
@@ -55,7 +55,7 @@ class usercontroller {
         try {
             const userresponse = await userRepositary.userRepositary.deleteuser(userid);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " User  data Deleted success "
             response.data = userresponse
 
         } catch (error) {
@@ -80,7 +80,7 @@ class usercontroller {
             }
             const userresponse = await userRepositary.userRepositary.putuser(dataToUpdate, userid);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " User  data Edited success "
             response.data = userresponse
 
         } catch (error) {
@@ -90,28 +90,35 @@ class usercontroller {
             response.data = null
         }
         res.send(response);
-
-
-
-
     }
 
-    async sortinguserdetails(req: Request, res: Response) {
-        const sortstring = req.params.sort;
-        let sortOrder: any;
-        if (sortstring.toLowerCase() === 'asc') {
-            sortOrder = 'asc';
-        } else if (sortstring.toLowerCase() === 'desc') {
-            sortOrder = 'desc';
-        } else {
-            res.status(400).send('Invalid sort order');
-            return;
-        }
+    async sortingSearchUserDetails(req: Request, res: Response) {
+        const sortstring = req.query.sort;
+        const searchstring = req.query.search;
+        const sortfield = req.query.sortfield as string
+        const searchfieldone = req.query.searchfieldone as string
+        const searchfieldtwo = req.query.searchfieldtwo as string
 
         try {
-            const userresponse = await userRepositary.userRepositary.sortinguser(sortOrder);
+            let whereCondition = {};
+            let orderByCondition = {};
+
+            if (searchstring) {
+                whereCondition = {
+                    OR: [
+                        { [searchfieldone]: { contains: searchstring, mode: "insensitive" } },
+                        { [searchfieldtwo]: { contains: searchstring, mode: "insensitive" } }
+                    ]
+                };
+            }
+
+            if (sortstring) {
+                orderByCondition = { [sortfield]: sortstring };
+            }
+
+            const userresponse = await userRepositary.userRepositary.sortingSearchuser(orderByCondition, whereCondition);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " User  data Sorted success "
             response.data = userresponse
 
         } catch (error) {
@@ -125,33 +132,14 @@ class usercontroller {
 
     }
 
-    async searchuserdetails(req: Request, res: Response) {
-        const searchstring = req.params.search;
 
-        try {
-            const userresponse = await userRepositary.userRepositary.searchuser(searchstring);
-            response.status = 200
-            response.message = " data Filter success "
-            response.data = userresponse
-
-        } catch (error) {
-            console.log(error);
-            response.status = 400
-            response.message = error as string
-            response.data = null
-        }
-        res.send(response);
-
-
-
-    }
 
     async filteruserdetails(req: Request, res: Response) {
 
         try {
             const userresponse = await userRepositary.userRepositary.filteruser();
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " User  data Filter success "
             response.data = userresponse
 
         } catch (error) {

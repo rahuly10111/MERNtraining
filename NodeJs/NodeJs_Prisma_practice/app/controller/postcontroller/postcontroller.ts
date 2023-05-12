@@ -15,7 +15,7 @@ class postcontroller {
         try {
             const postresponse = await postRepositary.postRepositary.createpost(postdata);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Post  data Added success "
             response.data = postresponse
 
         } catch (error) {
@@ -37,7 +37,7 @@ class postcontroller {
         try {
             const postresponse = await postRepositary.postRepositary.getpost();
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Post  data Get success "
             response.data = postresponse
 
         } catch (error) {
@@ -57,7 +57,7 @@ class postcontroller {
         try {
             const postresponse = await postRepositary.postRepositary.deletepost(postid);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Post  data Deleted success "
             response.data = postresponse
 
         } catch (error) {
@@ -76,14 +76,14 @@ class postcontroller {
         const postid = req.params.id;
 
         try {
-            const dataToUpdate: postdetails ={
+            const dataToUpdate: postdetails = {
                 title: req.body.title,
                 userid: req.body.userid,
                 categoryid: req.body.categoryid
             }
             const postresponse = await postRepositary.postRepositary.putpost(dataToUpdate, postid);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Post  data Edited success "
             response.data = postresponse
 
         } catch (error) {
@@ -93,28 +93,34 @@ class postcontroller {
             response.data = null
         }
         res.send(response);
-
-
-
     }
 
-    async sortingpostdetails(req: Request, res: Response) {
-        const sortstring = req.params.sort;
-        let sortOrder: any;
-        if (sortstring.toLowerCase() === 'asc') {
-            sortOrder = 'asc';
-        } else if (sortstring.toLowerCase() === 'desc') {
-            sortOrder = 'desc';
-        } else {
-            res.status(400).send('Invalid sort order');
-            return;
-        }
+    async sortingSearchPostDetails(req: Request, res: Response) {
+        const sortstring = req.query.sort;
+        const searchstring = req.query.search;
+        const sortfield = req.query.sortfield as string
+        const searchfieldone = req.query.searchfieldone as string
+        const searchfieldtwo = req.query.searchfieldtwo as string
+
         try {
-            const postresponse = await postRepositary.postRepositary.sortingpost(sortOrder);
-            response.status = 200
-            response.message = " data Filter success "
-            response.data = postresponse
+            let whereCondition = {};
+            let orderByCondition = {};
+            if (searchstring) {
+                whereCondition = {
+                    OR: [
+                        { [searchfieldone]: { contains: searchstring, mode: "insensitive" } },
+                        { [searchfieldtwo]: { contains: searchstring, mode: "insensitive" } }
+                    ]
+                };
+            }
 
+            if (sortstring) {
+                orderByCondition = { [sortfield]: sortstring };
+            }
+            const postresponse = await postRepositary.postRepositary.sortingSearchpost(orderByCondition, whereCondition);
+            response.status = 200
+            response.message = " Post  data Sorted success "
+            response.data = postresponse
         } catch (error) {
             console.log(error);
             response.status = 400
@@ -127,31 +133,31 @@ class postcontroller {
 
     }
 
-    async searchpostdetails(req: Request, res: Response) {
-        const searchstring = req.params.search;
-        try {
-            const postresponse = await postRepositary.postRepositary.searchpost(searchstring);
-            response.status = 200
-            response.message = " data Filter success "
-            response.data = postresponse
+    // async searchpostdetails(req: Request, res: Response) {
+    //     const searchstring = req.params.search;
+    //     try {
+    //         const postresponse = await postRepositary.postRepositary.searchpost(searchstring);
+    //         response.status = 200
+    //         response.message = " Post  data get success,As per search "
+    //         response.data = postresponse
 
-        } catch (error) {
-            console.log(error);
-            response.status = 400
-            response.message = error as string
-            response.data = null
-        }
-        res.send(response);
+    //     } catch (error) {
+    //         console.log(error);
+    //         response.status = 400
+    //         response.message = error as string
+    //         response.data = null
+    //     }
+    //     res.send(response);
 
 
 
-    }
+    // }
 
     async filterpostdetails(req: Request, res: Response) {
         try {
             const postresponse = await postRepositary.postRepositary.filterpost();
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Post  data Filter success "
             response.data = postresponse
 
         } catch (error) {

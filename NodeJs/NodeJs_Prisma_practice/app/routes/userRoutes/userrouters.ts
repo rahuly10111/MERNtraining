@@ -11,9 +11,11 @@ router.delete('/deleteuser/:id', usercontroller.usercontroller.deleteuserdetails
 
 router.put('/putuser/:id', usercontroller.usercontroller.putuserdetails);
 
-router.get('/sortinguser/:sort', usercontroller.usercontroller.sortinguserdetails);
+//router.get('/sortinguser/:sort', usercontroller.usercontroller.sortinguserdetails);
 
-router.get('/searchuser/:search', usercontroller.usercontroller.searchuserdetails);
+router.get('/sortingsearchuser', usercontroller.usercontroller.sortingSearchUserDetails);
+
+//router.get('/searchuser/:search', usercontroller.usercontroller.searchuserdetails);
 
 router.get('/filteruser', usercontroller.usercontroller.filteruserdetails);
 

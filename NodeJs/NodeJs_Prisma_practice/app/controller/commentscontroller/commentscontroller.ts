@@ -14,7 +14,7 @@ class commentscontroller {
         try {
             const commentsresponse = await commentsRepositary.commentsRepositary.createcomments(commentsdata);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Comments  data Added success "
             response.data = commentsresponse
 
         } catch (error) {
@@ -33,7 +33,7 @@ class commentscontroller {
         try {
             const commentsresponse = await commentsRepositary.commentsRepositary.getcomments();
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Comments  data Get success "
             response.data = commentsresponse
 
         } catch (error) {
@@ -53,7 +53,7 @@ class commentscontroller {
         try {
             const commentsresponse = await commentsRepositary.commentsRepositary.deletecomments(commentsid);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Comments  data Deleted success "
             response.data = commentsresponse
 
         } catch (error) {
@@ -78,7 +78,7 @@ class commentscontroller {
             }
             const commentsresponse = await commentsRepositary.commentsRepositary.putcomments(dataToUpdate, commentsid);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Comments  data Edited success "
             response.data = commentsresponse
 
         } catch (error) {
@@ -93,21 +93,30 @@ class commentscontroller {
 
     }
 
-    async sortingcommentsdetails(req: Request, res: Response) {
-        const sortstring = req.params.sort;
-        let sortOrder: any;
-        if (sortstring.toLowerCase() === 'asc') {
-            sortOrder = 'asc';
-        } else if (sortstring.toLowerCase() === 'desc') {
-            sortOrder = 'desc';
-        } else {
-            res.status(400).send('Invalid sort order');
-            return;
-        }
+    async sortingSearchCommentsdetails(req: Request, res: Response) {
+        const sortstring = req.query.sort;
+        const searchstring = req.query.search
+        const sortfield = req.query.sortfield as string
+        const searchfieldone = req.query.searchfieldone as string
+        const searchfieldtwo = req.query.searchfieldtwo as string
         try {
-            const commentsresponse = await commentsRepositary.commentsRepositary.sortingcomments(sortOrder);
+            let whereCondition = {};
+            let orderByCondition = {};
+            if (searchstring) {
+                whereCondition = {
+                    OR: [
+                        { [searchfieldone]: { contains: searchstring, mode: "insensitive" } },
+                        { [searchfieldtwo]: { contains: searchstring, mode: "insensitive" } }
+                    ]
+                };
+            }
+
+            if (sortstring) {
+                orderByCondition = { [sortfield]: sortstring };
+            }
+            const commentsresponse = await commentsRepositary.commentsRepositary.sortingSearchComments(orderByCondition, whereCondition);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Comments  data Sorted success "
             response.data = commentsresponse
 
         } catch (error) {
@@ -122,31 +131,31 @@ class commentscontroller {
 
     }
 
-    async searchcommentsdetails(req: Request, res: Response) {
-        const searchstring = req.params.search;
-        try {
-            const commentsresponse = await commentsRepositary.commentsRepositary.searchcomments(searchstring);
-            response.status = 200
-            response.message = " data Filter success "
-            response.data = commentsresponse
+    // async searchcommentsdetails(req: Request, res: Response) {
+    //     const searchstring = req.params.search;
+    //     try {
+    //         const commentsresponse = await commentsRepositary.commentsRepositary.searchcomments(searchstring);
+    //         response.status = 200
+    //         response.message = " Comments  data get success ,as per Search"
+    //         response.data = commentsresponse
 
-        } catch (error) {
-            console.log(error);
-            response.status = 400
-            response.message = error as string
-            response.data = null
-        }
-        res.send(response);
+    //     } catch (error) {
+    //         console.log(error);
+    //         response.status = 400
+    //         response.message = error as string
+    //         response.data = null
+    //     }
+    //     res.send(response);
 
 
 
-    }
+    // }
 
     async filtercommentsdetails(req: Request, res: Response) {
         try {
             const commentsresponse = await commentsRepositary.commentsRepositary.filtercomments();
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Comments  data Filter success "
             response.data = commentsresponse
 
         } catch (error) {

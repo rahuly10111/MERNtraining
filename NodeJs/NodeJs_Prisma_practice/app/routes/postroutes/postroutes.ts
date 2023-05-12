@@ -11,9 +11,9 @@ router.delete('/deletepost/:id', postcontroller.postcontroller.deletepostdetails
 
 router.put('/putpost/:id', postcontroller.postcontroller.putpostdetails);
 
-router.get('/sortingpost/:sort', postcontroller.postcontroller.sortingpostdetails);
+router.get('/sortsearchpost/:sort', postcontroller.postcontroller.sortingSearchPostDetails);
 
-router.get('/searchpost/:search', postcontroller.postcontroller.searchpostdetails);
+//router.get('/searchpost/:search', postcontroller.postcontroller.searchpostdetails);
 
 router.get('/filterpost', postcontroller.postcontroller.filterpostdetails);
 

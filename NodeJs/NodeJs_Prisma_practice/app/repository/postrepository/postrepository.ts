@@ -18,18 +18,17 @@ class socialrepository {
 
     async getpost() {
         let responsepost = await prisma.posts.findMany({
-            // include: {
-            //     user: true,
-            //     categoryes:true,
-            //     commentpost:true
-
-            // }
-
             include: {
-                _count: {
-                    select: { commentpost: true },
-                },
-            },
+                user: true,
+                categoryes: true,
+                commentpost: true
+            }
+
+            // include: {
+            //     _count: {
+            //         select: { commentpost: true },
+            //     },
+            // },
 
 
             // include: {
@@ -55,40 +54,23 @@ class socialrepository {
         return responsepost;
     }
 
-    async sortingpost(sortOrder: any) {
-        const responsepost = await prisma.posts.findMany({
-            orderBy: {
-                title: sortOrder
-            }
+    async sortingSearchpost(orderByCondition: any, whereCondition: any) {
+        const responsepost = await prisma.user.findMany({
+            where: whereCondition,
+            orderBy: orderByCondition
         });
         return responsepost
     }
 
-    async searchpost(searchstring: string) {
-        const responsepost = await prisma.posts.findMany({
-            where: {
-                OR: [
-                    { title: { contains: searchstring, mode: "insensitive" } },
-
-
-                ],
-            },
-        });
-        return responsepost;
-    }
-
     async filterpost() {
         const responsepost = await prisma.posts.findMany({
-            where: {
-                // OR: [
-                //     { population: { gt: 100000000 } },
-                //     { economy: { gte: 4534 } }
-                //   ]
-                // AND: [
-                //     { population: { gt: 100000000 } },
-                //     { economy: { gte: 2 } }
-                // ]
-            },
+            // include: {
+            //     user: true
+
+            // }
+            //where: {
+
+            //  },
         });
         return responsepost;
     }

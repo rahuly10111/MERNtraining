@@ -17,13 +17,21 @@ class countryrepository {
 
     async getuser() {
         const responseuser = await prisma.user.findMany({
+            include: {
+                _count: {
+                    select: { post: true },
+                },
+                post: true
+            },
             // select:{
             //     name:true
             // }
+
             // include: {
             //     post: true
 
             // }
+
             // include: {
             //     post:{
             //         where:{
@@ -32,11 +40,6 @@ class countryrepository {
             //     }
             //  }
 
-            include: {
-                _count: {
-                    select: { post: true },
-                },
-            },
 
             // select: {
             //     post: {
@@ -83,39 +86,91 @@ class countryrepository {
         return responseuser;
     }
 
-    async sortinguser(sortOrder: any,) {
+    async sortingSearchuser(orderByCondition?: any, whereCondition?: any) {
+
         const responseuser = await prisma.user.findMany({
-            orderBy: {
-                name: sortOrder
-            }
+            where: whereCondition,
+            orderBy: orderByCondition
         });
+
         return responseuser
     }
 
-    async searchuser(searchstring: string) {
-        const responseuser = await prisma.user.findMany({
-            where: {
-                OR: [
-                    { name: { contains: searchstring, mode: "insensitive" } },
-                    { gender: { contains: searchstring, mode: "insensitive" } },
-                ],
-            },
-        });
-        return responseuser;
-    }
 
     async filteruser() {
         const responseuser = await prisma.user.findMany({
+
+            // take:4      //-->> Pagination of four data
+
+            // skip: 8 //-->> It will Skip eight user data 
+
+            // distinct:["name"]  //-->> not show the same name data every time
+
+            //    where:{
+            //     name:{equals:"Shivam"} //-->> by using responseuser.length it will number of user   having name "shivam" 
+            //    }
+
+
+            //-->> Male with age greater than 20
+            // where: {
+            //     AND: [{
+            //         gender: {
+            //             startsWith: "male"
+            //         },
+            //     }, {
+            //         age: { gt: 20 }
+            //     }],
+
+            // }
+
+
             where: {
-                // OR: [
-                //     { population: { gt: 100000000 } },
-                //     { economy: { gte: 4534 } }
-                //   ]
-                // AND: [
-                //     { population: { gt: 100000000 } },
-                //     { economy: { gte: 2 } }
-                // ]
+                AND: [{
+                    gender: {
+                        startsWith: "male"
+                    },
+                }, {
+                    age: { gt: 20 }
+                }],
             },
+            include: {
+                post: true
+            }
+
+
+
+
+            // include: {
+            //     post: {
+            //         select: {
+            //             title:true,
+            //             categoryes: true,   //-->> get all data of user and post (title , catergoryes of post and comments on posts)
+            //             commentpost: true
+            //         }
+            //     }
+            // }
+
+
+            // where: {
+            //     select:{
+            //         post:{
+            //             where:{
+            //                 title:"lucky Boys"
+            //             }
+            //         }
+            //     }
+            // },
+
+
+            // include: {
+            //     post: {
+            //         select: {
+            //             categoryes: true,
+            //             commentpost: true
+            //         }
+            //     }
+            // }
+
         });
         return responseuser;
     }

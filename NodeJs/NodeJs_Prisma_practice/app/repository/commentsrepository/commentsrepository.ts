@@ -40,41 +40,20 @@ class socialrepository {
         return responsecomments;
     }
 
-    async sortingcomments(sortOrder: any) {
-        
-        const responsecomments = await prisma.comments.findMany({
-            orderBy: {
-                commenttext: sortOrder
-            }
+    async sortingSearchComments(orderByCondition: any, whereCondition: any) {
+        const responsecomments = await prisma.user.findMany({
+            where: whereCondition,
+            orderBy: orderByCondition
         });
         return responsecomments
     }
 
-    async searchcomments(searchstring: string) {
-        const responsecomments = await prisma.comments.findMany({
-            where: {
-                OR: [
-                    { commenttext: { contains: searchstring, mode: "insensitive" } },
-
-
-                ],
-            },
-        });
-        return responsecomments;
-    }
 
     async filtercomments() {
         const responsecomments = await prisma.comments.findMany({
-            where: {
-                // OR: [
-                //     { population: { gt: 100000000 } },
-                //     { economy: { gte: 4534 } }
-                //   ]
-                // AND: [
-                //     { population: { gt: 100000000 } },
-                //     { economy: { gte: 2 } }
-                // ]
-            },
+            // where: {
+
+            // },
         });
         return responsecomments;
     }

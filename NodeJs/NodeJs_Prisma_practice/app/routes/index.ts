@@ -1,7 +1,7 @@
 
 import express from 'express';
 import postRoutes from './postroutes/postroutes';
-import userRoutes from './userroutes/userrouters';
+import userRoutes from './userRoutes/userrouters';
 import commentsRoutes from './commentsroutes/commentsroutes';
 import categoryRoutes from './categoryroutes/categoryroutes'
 

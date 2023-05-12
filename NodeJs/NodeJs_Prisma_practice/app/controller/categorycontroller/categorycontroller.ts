@@ -10,11 +10,10 @@ class categorycontroller {
             categoryname: req.body.categoryname,
             postid: req.body.postid
         }
-
         try {
             const categoryresponse = await categoryRepositary.categoryRepositary.createcategory(categorydata);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Category  data Added success "
             response.data = categoryresponse
 
         } catch (error) {
@@ -24,16 +23,13 @@ class categorycontroller {
             response.data = null
         }
         res.send(response);
-
-
     }
 
     async getcategorydetails(req: Request, res: Response) {
-
         try {
             const categoryresponse = await categoryRepositary.categoryRepositary.getcategory();
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Category  data Get success "
             response.data = categoryresponse
 
         } catch (error) {
@@ -49,13 +45,11 @@ class categorycontroller {
 
     async deletecategorydetails(req: Request, res: Response) {
         const categoryid = req.params.id;
-
         try {
             const categoryresponse = await categoryRepositary.categoryRepositary.deletecategory(categoryid);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Category  data Deleted success "
             response.data = categoryresponse
-
         } catch (error) {
             console.log(error);
             response.status = 400
@@ -63,9 +57,6 @@ class categorycontroller {
             response.data = null
         }
         res.send(response);
-
-
-
     }
 
     async putcategorydetails(req: Request, res: Response) {
@@ -78,7 +69,7 @@ class categorycontroller {
             }
             const categoryresponse = await categoryRepositary.categoryRepositary.putcategory(dataToUpdate, categoryid);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Category  data Edited success "
             response.data = categoryresponse
 
         } catch (error) {
@@ -88,26 +79,35 @@ class categorycontroller {
             response.data = null
         }
         res.send(response);
-
-
-
     }
 
-    async sortingcategorydetails(req: Request, res: Response) {
-        const sortstring = req.params.sort;
-        let sortOrder: any;
-        if (sortstring.toLowerCase() === 'asc') {
-            sortOrder = 'asc';
-        } else if (sortstring.toLowerCase() === 'desc') {
-            sortOrder = 'desc';
-        } else {
-             res.status(400).send('Invalid sort order');
-            return;
-        }
+    async sortingSearchCategoryDetails(req: Request, res: Response) {
+        const sortstring = req.query.sort;
+        const searchstring = req.query.search;
+        const sortfield = req.query.sortfield as string
+        const searchfieldone = req.query.searchfieldone as string
+        const searchfieldtwo = req.query.searchfieldtwo as string
+
         try {
-            const categoryresponse = await categoryRepositary.categoryRepositary.sortingcategory(sortOrder);
+            let whereCondition = {};
+            let orderByCondition = {};
+
+            if (searchstring) {
+                whereCondition = {
+                    OR: [
+                        { [searchfieldone]: { contains: searchstring, mode: "insensitive" } },
+                        { [searchfieldtwo]: { contains: searchstring, mode: "insensitive" } }
+                    ]
+                };
+            }
+
+            if (sortstring) {
+                orderByCondition = { [sortfield]: sortstring };
+            }
+
+            const categoryresponse = await categoryRepositary.categoryRepositary.sortingSearchCategory(orderByCondition, whereCondition);
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Category  data Sorted success "
             response.data = categoryresponse
 
         } catch (error) {
@@ -122,31 +122,31 @@ class categorycontroller {
 
     }
 
-    async searchcategorydetails(req: Request, res: Response) {
-        const searchstring = req.params.search;
-        try {
-            const categoryresponse = await categoryRepositary.categoryRepositary.searchcategory(searchstring);
-            response.status = 200
-            response.message = " data Filter success "
-            response.data = categoryresponse
+    // async searchcategorydetails(req: Request, res: Response) {
+    //     const searchstring = req.params.search;
+    //     try {
+    //         const categoryresponse = await categoryRepositary.categoryRepositary.searchcategory(searchstring);
+    //         response.status = 200
+    //         response.message = " Category  data get success, as per Search "
+    //         response.data = categoryresponse
 
-        } catch (error) {
-            console.log(error);
-            response.status = 400
-            response.message = error as string
-            response.data = null
-        }
-        res.send(response);
+    //     } catch (error) {
+    //         console.log(error);
+    //         response.status = 400
+    //         response.message = error as string
+    //         response.data = null
+    //     }
+    //     res.send(response);
 
 
 
-    }
+    // }
 
     async filtercategorydetails(req: Request, res: Response) {
         try {
             const categoryresponse = await categoryRepositary.categoryRepositary.filtercategory();
             response.status = 200
-            response.message = " data Filter success "
+            response.message = " Category  data Filter success "
             response.data = categoryresponse
 
         } catch (error) {
