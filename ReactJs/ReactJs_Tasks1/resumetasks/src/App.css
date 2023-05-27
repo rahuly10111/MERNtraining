@@ -1,0 +1,145 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sidebar {
+  height: 1035px !important;
+}
+
+.resume-box ul {
+  margin: 0;
+  padding: 30px 20px;
+  list-style: none;
+}
+
+.resume-box li {
+  position: relative;
+  padding: 0 20px 0 60px;
+  margin: 0 0 30px;
+}
+
+.resume-box li:last-child {
+  margin-bottom: 0;
+}
+
+.resume-box li:after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  border-left: 1px dashed #7a6364;
+  bottom: 0;
+}
+
+.resume-box .icon {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: #5091db;
+  line-height: 40px;
+  background: #ffffff;
+  text-align: center;
+  z-index: 1;
+  border: 1px dashed;
+  border-radius: 50%;
+}
+
+.resume-box .time {
+  background: #0c7ee9;
+  color: #ffffff;
+  font-size: 10px;
+  padding: 2px 10px;
+  display: inline-block;
+  margin-bottom: 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.resume-box h5 {
+  font-weight: 700;
+  color: #6167d8;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.resume-box p {
+  margin: 0;
+}
+
+.resume-box li:after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 20px;
+  border-left: 1px dashed #0f0c0c;
+  bottom: 0;
+}
+
+.skillsbar ul {
+  margin: 0;
+  padding: 10px 20px;
+  list-style: none;
+}
+
+.skillsbar li {
+  position: relative;
+  padding: 0 20px 0 60px;
+  margin: 0 0 30px;
+}
+
+.iconsize {
+  font-size: "1.5rem";
+}
+
+.skills{
+  background: #0c7ee9;
+  color: #ffffff;
+  font-size: 10px;
+  padding: 8px 20%; 
+  display: inline-block;
+  margin-bottom: -2px;
+  border-radius: 20px;
+  margin-left: 10px;
+}
+
+.footericon{
+  margin-left: 10px;
+ 
+}

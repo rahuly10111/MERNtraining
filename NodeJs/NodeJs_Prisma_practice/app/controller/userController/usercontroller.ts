@@ -35,7 +35,7 @@ class usercontroller {
         try {
             const userresponse = await userRepositary.userRepositary.getuser();
             response.status = 200
-            response.message = " User  data Get success "
+            response.message = " User data Get success "
             response.data = userresponse
 
         } catch (error) {
