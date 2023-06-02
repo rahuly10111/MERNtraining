@@ -10,7 +10,7 @@ class validation {
         if (emailRegex.test(email)) {
             return true;
         } else {
-            
+
             return false;
         }
     }

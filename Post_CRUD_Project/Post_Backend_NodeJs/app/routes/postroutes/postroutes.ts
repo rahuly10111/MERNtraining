@@ -1,17 +1,18 @@
 import { Router } from 'express';
 import postcontroller from '../../controller/index'
+import tokenverify from '../../middleware/tokenValidation';
 
 const router = Router();
 
-router.post('/postpost', postcontroller.postcontroller.postpostdetails);
+router.post('/postpost', tokenverify, postcontroller.postcontroller.postpostdetails);
 
-router.get('/getpost', postcontroller.postcontroller.getpostdetails);
+router.get('/getpost', tokenverify, postcontroller.postcontroller.getpostdetails);
 
-router.get('/getpostbyid/:id', postcontroller.postcontroller.getpostdetailsid);
+router.get('/getpostbyid/:id', tokenverify, postcontroller.postcontroller.getpostdetailsid);
 
-router.delete('/deletepost/:id', postcontroller.postcontroller.deletepostdetails);
+router.delete('/deletepost/:id', tokenverify, postcontroller.postcontroller.deletepostdetails);
 
-router.put('/putpost/:id', postcontroller.postcontroller.putpostdetails);
+router.put('/putpost/:id', tokenverify, postcontroller.postcontroller.putpostdetails);
 
 
 

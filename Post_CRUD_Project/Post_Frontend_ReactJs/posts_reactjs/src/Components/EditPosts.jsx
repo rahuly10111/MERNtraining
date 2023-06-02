@@ -1,21 +1,51 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { PutPostsData } from '../Redux/Action/Action';
+import { PutPostsData, getPostsIdData } from '../Redux/Action/PostAction';
 
 export default function EditPosts() {
     const params = useParams();
     console.log("edit parama ", params)
-    const state = useSelector((state) => state.putData.PostsData.data);
+    const state = useSelector((state) => state.putData.PostsData);
+    //const state = useSelector((state) => state);
     console.log("view put data posts ", state)
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
+    const [postdata, setpostdata] = useState([])
 
+    useEffect(() => {
+        setpostdata(state)
+    }, [state])
+
+    
     useEffect(() => {
         dispatch(PutPostsData(params));
         setShow(true);
     }, [])
+
+    function ChangeFormValue(e) {
+        setpostdata({ ...postdata, [e.target.name]: e.target.value });
+    }
+
+    function UpdatePostForm() {
+        dispatch(PutPostsData(params, postdata));
+        setShow(false)
+        setpostdata({
+            title: "",
+            description: "",
+            category: ""
+        })
+    }
+
+    function CancelForm() {
+        setShow(false)
+        setpostdata({
+            title: "",
+            description: "",
+            category: ""
+        })
+    }
 
     return (
         <>
@@ -24,37 +54,40 @@ export default function EditPosts() {
                     <Modal.Title>Login Form</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <>
-                        <Form>
-                            <div className="mb-3">
-                                <label className="form-label fontcolor"> <b>Title</b> </label>
-                                <input type="text" className="form-control" name="title" id="title"
-                                    placeholder="Post Title" value={postdata.title} onChange={ChangeFormValue} />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label fontcolor"> <b>Description</b> </label>
-                                <textarea type="text" className="form-control" id="description" name="description" rows="3" value={postdata.description} onChange={ChangeFormValue}
-                                    placeholder=" Title Description "  ></textarea>
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label fontcolor"> <b>Category</b> </label>
-                                <select className="form-select" aria-label="Default select example" name='category' value={postdata.category} onChange={ChangeFormValue}>
-                                    {/* <option  value >Select Post Category</option> */}
-                                    <option >Fashion and Style</option>
-                                    <option >Food and Beverage</option>
-                                    <option >Health and Wellness</option>
-                                    <option >Career and Business</option>
-                                    <option >Motivation and Inspiration</option>
-                                </select>
-                            </div>
-                        </Form>
+                    <form>
+                        <div className="mb-3">
+                            <label className="form-label fontcolor"> <b>Title</b> </label>
+                            <input type="text" className="form-control" name="title" id="title"
+                                placeholder="Post Title" onChange={ChangeFormValue} value={postdata?.title} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label fontcolor"> <b>Description</b> </label>
+                            <textarea type="text" className="form-control" id="description" name="description" rows="3" value={postdata?.description}
+                                placeholder=" Title Description " onChange={ChangeFormValue}  ></textarea>
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label fontcolor"> <b>Category</b> </label>
+                            <select className="form-select" aria-label="Default select example" name='category' onChange={ChangeFormValue} defaultValue={postdata?.category}>
+                                {/* {options?.map((option)=>{
+                                    return <option value={option?.value}>{option?.label}</option>
+                                })} */}
+
+                                <option value="Fashion and Style" >Fashion and Style</option>
+                                <option value="Food and Beverage" >Food and Beverage</option>
+                                <option value="Health and Wellness" >Health and Wellness</option>
+                                <option value="Career and Business" >Career and Business</option>
+                                <option value="Motivation and Inspiration" >Motivation and Inspiration</option>
+                            </select>
+                        </div>
+                    </form>
 
 
-
-                    </>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary">Close Modal</Button>
+                    <div className="modal-footer justify-content-start">
+                        <button type="button" className="btn btn-primary" id="savepost" onClick={UpdatePostForm} data-bs-dismiss="modal">Save</button>
+                        <button type="button" className="btn btn-light" data-bs-dismiss="modal" onClick={CancelForm}>Cancel</button>
+                    </div>
                 </Modal.Footer>
             </Modal>
 

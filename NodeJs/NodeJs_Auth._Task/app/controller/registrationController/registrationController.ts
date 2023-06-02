@@ -32,7 +32,7 @@ class registrationcontroller {
             response.data = postresponse
             response.token = token
         } catch (error) {
-            console.log("resqw",error);
+            console.log("resqw", error);
             response.status = 400
             response.message = error as string
             response.data = null

@@ -1,43 +1,46 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getPostsIdData } from "../Redux/Action/Action";
+import { getPostsIdData } from "../Redux/Action/PostAction";
+import Loader from './Loader';
 
 export default function ViewPosts() {
-    const state = useSelector((state) => state.getIddata.PostsData.data);
-    console.log("view data posts ", state)
 
+    const state = useSelector((state) => state.getIddata.PostsData);
     const dispatch = useDispatch();
     const params = useParams()
-    console.log("params::>", params)
     useEffect(() => {
         dispatch(getPostsIdData(params))
     }, []);
 
     return (
-        <table className="table p-4  center table-info table-hover table-bordered">
-            <thead>
-                <tr className="table-secondary">
-                    <th> Title</th>
-                    <th> Description </th>
-                    <th> Category </th>
+        <>
+            {state?.loading ? (
+                <Loader></Loader>
+            ) : (
+                <>
+                    <h2 style={{ textAlign: "center" }}> Posts Details </h2>
+                    <div className="card p-4">
+                        <div class="demo-wrap">
+                            <div class="demo-content">
+                                {state?.map((data, index) => (
+                                    <div key={index}>
+                                        <div> <b>  Title :   </b>{data?.title} </div>
+                                        <br />
+                                        <div> <b>  Description :   </b>{data?.description} </div>
+                                        <br />
+                                        <div> <b>  Category :   </b>{data?.category} </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
 
-                </tr>
-            </thead>
+                    </div>
+                </>
 
-            <tbody>
-                {state?.map((data, index) => (
-                    <tr key={index} className="table-secondary">
-                        <td className="table-info">{data?.title} </td>
-                        <td className="table-info">{data?.description}</td>
-                        <td className="table-info">{data?.category}</td>
+            )}
 
-                    </tr>
-                ))}
-            </tbody>
-
-
-        </table>
+        </>
 
     );
 }

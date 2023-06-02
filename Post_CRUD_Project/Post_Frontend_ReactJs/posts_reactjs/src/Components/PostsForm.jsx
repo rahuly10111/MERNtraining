@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { AddPostData } from '../Redux/Action/Action';
+import { AddPostData } from '../Redux/Action/PostAction';
 import swal from 'sweetalert';
 
 export default function PostsForm() {
@@ -31,7 +31,7 @@ export default function PostsForm() {
     return (
         <>
             <div className="d-grid gap-2 p-4 col-6 mx-auto">
-                <button type="button" className="btn btn-outline-warning " data-bs-toggle="modal"
+                <button type="button" className="btn btn-warning " data-bs-toggle="modal"
                     data-bs-target="#postModal">
                     <label htmlFor="">Add Post</label>
                 </button>

@@ -10,6 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model user {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String @unique
+  password String
+  mobile   String
+  address  String
+  pincode  String
+  roleID   String @db.ObjectId
+  role     role   @relation(fields: [roleID], references: [id])
+}
+
+model role {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  role_name    String       @unique
+  user         user[]
+  permissionId String[]     @db.ObjectId
+  permission   permission[] @relation(fields: [permissionId], references: [id])
+}
+
+model permission {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  permission_name String   @unique
+  roleId          String[] @db.ObjectId
+  role            role[]   @relation(fields: [roleId], references: [id])
+}
+
 model posts {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   title       String

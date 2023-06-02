@@ -5,7 +5,7 @@ import tokenverify from '../../middleware/tokenValidation'
 
 const router = Router();
 
-router.get('/getuserdetail', tokenverify,tokencontroller.tokencontroller.tokengetdata);
+router.get('/getuserdetail', tokenverify, tokencontroller.tokencontroller.tokengetdata);
 
 
 export default router;
