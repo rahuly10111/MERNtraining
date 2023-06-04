@@ -1,5 +1,6 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom"
 import './App.css';
+import image from "../src/IMG_0234.jpeg"
 import NavBar from "./Components/NavBar";
 import PostsForm from "./Components/PostsForm";
 import GetPost from "./Components/GetPost";
