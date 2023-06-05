@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CheckPermission from '../Permission/CheckPermission'
 import Permission from '../Permission/Permission'
@@ -20,12 +20,12 @@ export default function NavBar() {
                     <div className="collapse navbar-collapse" id="navbarNav">
 
                         <ul class="snip1143">
-                            <li><Link to="/" className="nav-link"> <b> LOGIN </b></Link></li>
-                            <li><Link to="/userprofile" className="nav-link"> <b> PROFILE </b></Link></li>
-                            <li><Link to="/addposts" className="nav-link"> <b> ADDPOSTS </b></Link></li>
-                            <li><Link to="/getposts" className="nav-link"> <b> POSTS </b></Link></li>
-                            <li><Link to="/getuser" className="nav-link"> <b> USER </b></Link></li>
-                            <li><Link to="/photos" className="nav-link"> <b>  PHOTOS </b></Link></li>
+                            <li><NavLink to="/" className="nav-link"> <b> LOGIN </b></NavLink></li>
+                            <li><NavLink to="/userprofile" className="nav-link"> <b> PROFILE </b></NavLink></li>
+                            <li><NavLink to="/addposts" className="nav-link"> <b> ADDPOSTS </b></NavLink></li>
+                            <li><NavLink to="/getposts" className="nav-link"> <b> POSTS </b></NavLink></li>
+                            <li><NavLink to="/getuser" className="nav-link"> <b> USER </b></NavLink></li>
+                            <li><NavLink to="/photos" className="nav-link"> <b>  PHOTOS </b></NavLink></li>
                         </ul>
 
                     </div>

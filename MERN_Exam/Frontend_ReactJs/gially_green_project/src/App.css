@@ -1,0 +1,354 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+} */
+
+/* @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} */
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* NavBar CSS */
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.html {
+  font-size: 62.5%;
+}
+
+.navbar .hamburger-lines {
+  display: none;
+}
+
+.container {
+  max-width: 1200px;
+  width: 90%;
+  margin: auto;
+}
+
+.navbar {
+  box-shadow: 0px 5px 10px 0px #414040;
+  width: 100%;
+  background: #e4e4e4;
+  color: #000;
+  opacity: 0.85;
+  z-index: 100;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  height: 64px;
+  align-items: center;
+}
+
+.logo {
+  order: 1;
+  width: 84px;
+  height: 72px;
+}
+
+.svg_icons {
+  order: 1;
+  position: absolute;
+  top: 10px;
+  right: -14px;
+  width: 90px !important;
+  height: 43px !important;
+  color: rgb(4, 10, 97);
+}
+.user_icons {
+  order: 1;
+  position: absolute;
+  top: 10px;
+  right: 46px;
+  width: 90px !important;
+  height: 43px !important;
+  color: rgb(4, 10, 97);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    opacity: 0.95;
+  }
+}
+
+.navbar-container input[type="checkbox"],
+.navbar-container .hamburger-lines {
+  display: block;
+}
+
+.navbar-container {
+  display: block;
+  position: relative;
+  height: 64px;
+}
+
+.navbar-container input[type="checkbox"] {
+  position: absolute;
+  display: block;
+  height: 32px;
+  width: 30px;
+  top: 20px;
+  left: 20px;
+  z-index: 5;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.navbar-container .hamburger-lines {
+  display: block;
+  height: 28px;
+  width: 35px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* .logo{
+        
+    } */
+
+/* registration form css */
+
+.colorful-form {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #a6afb7;
+  border-radius: 83px 0px;
+  transition: 0.4s ease-in-out;
+  margin-top: 80px;
+  height: 448px;
+  padding-top: 3.4em;
+  padding-bottom: 3.4em;
+  box-shadow: 7px 15px 29px 2px #000000;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #1e2f36;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #424244;
+}
+
+/* login form css */
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333333;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+}
+
+/* textarea.form-input {
+  height: 100px;
+} */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-bottom: 0.4em;
+  background-color: #a6afb7;
+  border-radius: 0px 83px;
+  transition: 0.4s ease-in-out;
+  width: 600px;
+  margin: auto;
+  margin-top: 100px;
+  height: 382px;
+  padding-top: 2.4em;
+  box-shadow: 7px 15px 29px 2px #000000;
+}
+/* 
+    .form:hover {
+      transform: scale(1.05);
+      border: 1px solid rgb(13, 35, 231);
+    } */
+
+#heading {
+  text-align: center;
+  margin: 2em;
+  color: rgb(255, 255, 255);
+  font-size: 1.2em;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 25px;
+  padding: 0.6em;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: #2a3150;
+  box-shadow: inset 2px 5px 10px rgb(48, 60, 87);
+}
+
+.input-icon {
+  height: 1.3em;
+  width: 1.3em;
+  fill: white;
+}
+
+.input-field {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #d3d3d3;
+}
+
+.form .btn {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 2.5em;
+}
+
+.button1 {
+  padding: 0.5em;
+  padding-left: 1.1em;
+  padding-right: 1.1em;
+  border-radius: 5px;
+  margin-right: 0.5em;
+  border: none;
+  outline: none;
+  transition: 0.4s ease-in-out;
+  background-color: #5d90f0;
+  color: white;
+}
+
+.button1:hover {
+  background-color: rgb(10, 110, 241);
+  color: white;
+}
+
+.button2 {
+  padding: 0.5em;
+  padding-left: 2.3em;
+  padding-right: 2.3em;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: 0.4s ease-in-out;
+  background-color: #5d90f0;
+  color: white;
+}
+
+.button2:hover {
+  background-color: rgb(10, 110, 241);
+  color: white;
+}
+
+/* Profile Card CSS */
+
+.demo-wrap {
+  position: relative;
+}
+
+.demo-wrap:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+  background-image: url("https://tailwindui.com/img/beams-home@95.jpg");
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+}
+
+.demo-content {
+  position: relative;
+  padding: 27px;
+  height: 319px;
+}
+
+.card {
+  box-shadow: 4px 8px 12px 2px rgba(0, 39, 71, 0.993);
+  max-width: 458px;
+  margin: auto;
+  margin-top: 21px;
+  border-radius: 50px;
+  text-align: center;
+  font-family: arial;
+  padding: 16px;
+  background-color: #038af8;
+  text-align: left;
+  height: 363px;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.profileButton {
+  text-align: center;
+  padding-top: 41px;
+}

@@ -27,6 +27,10 @@ body {
   );
 }
 
+.active{
+  color: #0b2ce2 !important;
+}
+
 .center {
   margin-left: auto;
   margin-right: auto;
