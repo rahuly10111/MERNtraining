@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../Clogo.png';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Person3Icon from '@mui/icons-material/Person3';
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,7 @@ export default function NavBar() {
                 <div className="navbar-container container">
                     <div className="hamburger-lines">
                     </div>
-                    <img className="logo" src="https://i.imgur.com/gea725J.png" alt="Logo" />
+                    <img className="logo" src={logo} alt="Logo" />
                     <ExitToAppIcon className="svg_icons" onClick={() => { logout() }} ></ExitToAppIcon>
                     <Person3Icon className="user_icons" onClick={() => navigate("/profile")} ></Person3Icon>
                 </div>

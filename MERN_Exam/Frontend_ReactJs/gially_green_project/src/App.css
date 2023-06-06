@@ -13,6 +13,10 @@
   }
 } */
 
+/* body{
+  background-image: url("https://img.freepik.com/premium-photo/blurred-abstract-yellow-bokeh-background_49507-2515.jpg");
+} */
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -64,7 +68,7 @@
 .navbar {
   box-shadow: 0px 5px 10px 0px #414040;
   width: 100%;
-  background: #e4e4e4;
+  background: #fff9f9;
   color: #000;
   opacity: 0.85;
   z-index: 100;
@@ -79,8 +83,9 @@
 
 .logo {
   order: 1;
-  width: 84px;
-  height: 72px;
+  width: 18%;
+  margin-top: -21px;
+  height: 103px;
 }
 
 .svg_icons {
@@ -89,8 +94,8 @@
   top: 10px;
   right: -14px;
   width: 90px !important;
-  height: 43px !important;
-  color: rgb(4, 10, 97);
+  height: 38px !important;
+  color: rgb(144, 146, 25);
 }
 .user_icons {
   order: 1;
@@ -98,8 +103,8 @@
   top: 10px;
   right: 46px;
   width: 90px !important;
-  height: 43px !important;
-  color: rgb(4, 10, 97);
+  height: 38px !important;
+  color: rgb(144, 146, 25);
 }
 
 @media (max-width: 768px) {
@@ -341,7 +346,7 @@
   text-align: center;
   font-family: arial;
   padding: 16px;
-  background-color: #038af8;
+  background-color: #40c3f7;
   text-align: left;
   height: 363px;
   font-size: 26px;
@@ -351,4 +356,26 @@
 .profileButton {
   text-align: center;
   padding-top: 41px;
+}
+
+.inputcell {
+  width: 62px !important;
+  height: 18px !important;
+  border: none;
+  text-align: center;
+}
+
+.month {
+  width: 900px;
+  height: 400px;
+}
+
+.MuiInputBase-root {
+  width: 236px !important;
+  height: 56px !important;
+}
+
+.threebutton {
+  width: 200px;
+  margin-left: 844px;
 }

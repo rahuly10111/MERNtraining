@@ -17,3 +17,19 @@ model user {
   password String
   mobile   String
 }
+
+model supplier {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  supplier        String
+  hair_services   Float
+  beauty_services Float
+  custom_1        Float
+  custom_2        Float
+  custom_3        Float
+  custom_4        Float
+  Net             Float
+  VAT             Float
+  Gross           Float
+  Advance_paid    Float
+  balance_due     Float
+}

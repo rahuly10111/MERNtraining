@@ -5,11 +5,13 @@ import { UserLoginReducers } from "./LoginReducer";
 import { ProfileReducers } from "./ProfileReducer";
 import { PutUserReducers } from "./PutUserReducer";
 import { ViewUserReducers } from "./ViewUser";
+import { GetSupplierReducers } from "./GetSupplierReducer";
 
 export const rootReducer = combineReducers({
     userRegistration: UserRegReducers,
     userLogin: UserLoginReducers,
     profileDetails: ProfileReducers,
     putUser: PutUserReducers,
-    viewUser: ViewUserReducers
+    viewUser: ViewUserReducers,
+    getSupplier: GetSupplierReducers
 })
