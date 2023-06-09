@@ -18,6 +18,48 @@ export const SupplierService = {
     },
 
 
+    GetMonthSupplier: async (invoicesMonth) => {
+        const reqestObj = new requestModel();
+        try {
+            reqestObj.method = requestMethod.GET;
+            reqestObj.url = supplierEndPoints.supplierEndPoints.GET_SUPPLIER_MONTH(invoicesMonth);
+            reqestObj.data = null;
+            return await axiosRepository.request(reqestObj);
+        } catch (error) {
+            console.log('error from services::>', error);
+        }
+    },
+
+
+
+    PostSupplier: async (body) => {
+        const reqestObj = new requestModel();
+        try {
+            reqestObj.method = requestMethod.POST;
+            reqestObj.url = supplierEndPoints.supplierEndPoints.POST_SUPPLIER;
+            reqestObj.data = body;
+            return await axiosRepository.request(reqestObj);
+        } catch (error) {
+            console.log('error from services::>', error);
+        }
+    },
+
+
+
+
+
+
+    GetAllHeader: async (body) => {
+        const reqestObj = new requestModel();
+        try {
+            reqestObj.method = requestMethod.GET;
+            reqestObj.url = supplierEndPoints.supplierEndPoints.GET_ALL_HEADER;
+            reqestObj.data = body;
+            return await axiosRepository.request(reqestObj);
+        } catch (error) {
+            console.log('error from services::>', error);
+        }
+    },
 
 
 

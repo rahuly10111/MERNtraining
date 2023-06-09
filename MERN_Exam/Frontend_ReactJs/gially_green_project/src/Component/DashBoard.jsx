@@ -1,151 +1,429 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DataGrid } from '@mui/x-data-grid';
-import { GetSupplierData } from '../Redux/Action/SupplierAction';
-
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DataGrid } from "@mui/x-data-grid";
+import { GetSupplierData, PostSupplierData, GetHeaderData, getMonthSupplierData } from "../Redux/Action/SupplierAction";
+import dayjs from "dayjs";
 
 export default function DashBoard() {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state?.getSupplier.supplierData);
-  console.log("Dasboard State", state)
+  const supplierState = useSelector((state) => state?.getSupplier?.supplierData);
+  const headerState = useSelector((state) => state?.getHeader?.headerData);
+
+  const MonthSupplierState = useSelector((state) => state?.getMonthSupplier?.supplierData);
 
   const [supplierdata, setsupplierdata] = useState([]);
+  const [headerdata, setheaderdata] = useState([]);
   const [monthdate, setmonthdate] = useState();
+
+  // dayjs(new Date())
 
   useEffect(() => {
     dispatch(GetSupplierData());
+    dispatch(GetHeaderData());
   }, []);
 
-  function ChangeTableValue(e) {
-    setsupplierdata({ ...supplierdata, [e.target.name]: e.target.value });
+  function ChangeTableValue(e, index) {
+    setsupplierdata((prev) =>
+      prev.map((d, i) => {
+        console.log(" check d", d)
+        if (i === index) d.invoices[0][e.target.name] = parseInt(e?.target?.value);
+        return d;
+      })
+    );
+
+    // const updateData = supplierdata.map((d, mapIndex) => {
+    //   if (mapIndex === index) {
+    //     d.invoices[e.target.name] = e?.target?.value
+    //   }
+    //   return d
+    // })
+
+    // const updateNetData = updateData.map((data, mapIndex) => {
+    //   const net = parseInt(data?.invoices?.col_1) +
+    //     parseInt(data?.invoices?.col_2) +
+    //     parseInt(data?.invoices?.col_3) +
+    //     parseInt(data?.invoices?.col_4) +
+    //     parseInt(data?.invoices?.col_5) +
+    //     parseInt(data?.invoices?.col_6)
+    //   if (mapIndex === index) {
+    //     return { ...data, [e.target.name]: e.target.value, Net: net }
+    //   }
+    // })
+    // setsupplierdata(updateNetData)
   }
+
+
+  function ChangeHeaderValue(e, data) {
+
+    var a = data.header_data
+
+    setheaderdata([a, { [e.target.name]: e.target.value }]);
+  }
+
 
   function changeDate(e) {
-    alert("sas", e.target.value)
+    const givenDate = new Date(e);
+
+    const nextMonth = new Date(
+      givenDate.getFullYear(),
+      givenDate.getMonth() + 1,
+      1
+    );
+    const lastDayOfMonth = new Date(nextMonth.getTime() - 1);
+    const lastDate = new Date(lastDayOfMonth);
+    setmonthdate(dayjs(lastDate))
+    var invoicesMonth = new Date(givenDate).toLocaleString('default', { month: 'long', year: 'numeric' });
+    dispatch(getMonthSupplierData(invoicesMonth));
 
   }
-  console.log("dfdsfdsfg", monthdate);
-  //console.log(moment().endOf('month').format("DD-MM-YYYY"))
-  console.log()
+
   useEffect(() => {
-    setsupplierdata(state)
-  }, [state]
-  )
+    let dataes = [];
+    if (MonthSupplierState[0]?.invoices?.length === 1) {
+      setsupplierdata(MonthSupplierState);
+    } else {
+      supplierState?.map((data, index) => {
+        dataes.push({
+          "id": data.id,
+          "name": data.name,
+          "invoices": [
+            {
+              // "id": "",
+              "col_1": 0,
+              "col_2": 0,
+              "col_3": 0,
+              "col_4": 0,
+              "col_5": 0,
+              "col_6": 0,
+              "col_7": 0,
+              "col_8": 0,
+              "col_9": 0,
+              "col_10": 0,
+              "update_date": new Date(monthdate).toLocaleString('default', { month: 'long', year: 'numeric' })
+            }
+          ]
+        })
 
 
-  // const [data, setData] = useState([
-  //   [{ value: "Vanilla" }, { value: "Chocolate" }, { value: "Chocolate" }, { value: "Chocolate" }],
-  //   [{ value: "Strawberry" }, { value: "Cookies" }, { value: "Chocolate" }, { value: "Chocolate" }],
-  //   [{ value: "Vanilla" }, { value: "Chocolate" }, { value: "Chocolate" }, { value: "Chocolate" }],
-  //   [{ value: "Strawberry" }, { value: "Cookies" }, { value: "Chocolate" }, { value: "Chocolate" }],
-  // ]);
+      })
+      setsupplierdata(dataes);
+
+    }
+
+    setheaderdata(headerState);
+  }, [MonthSupplierState, monthdate]);
+
+  const a = 0;
+
+  function saveSupplierData() {
+    dispatch(PostSupplierData(supplierdata));
+  }
+
 
 
 
   return (
     <>
-
-      {/* <Spreadsheet data={data} onChange={setData} /> */}
-
-
       <div class="row g-3 p-4 ">
         <p>Montly Invoice List </p>
         <div className="row">
-          <label class="col-sm-2 col-form-label"> <b> Choose Month :</b></label>
+          <label class="col-sm-2 col-form-label">
+            <b> Choose Month :</b>
+          </label>
           <div class="col">
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs} className="monthpicker" >
-              <DemoContainer components={['DatePicker', 'DatePicker', 'DatePicker']}>
-                <DatePicker label={'"month" and "year"'} views={['month', 'year']} onChange={(e) => { changeDate(e) }} />
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              className="monthpicker"
+
+            >
+              <DemoContainer
+                components={["DatePicker", "DatePicker", "DatePicker"]}
+              >
+                <DatePicker
+                  label={'"month" and "year"'}
+                  views={["month", "year"]}
+                  value={monthdate}
+                  onChange={(e) => {
+                    changeDate(e);
+                  }}
+
+                />
               </DemoContainer>
-            </LocalizationProvider> */}
-           
+            </LocalizationProvider>
           </div>
         </div>
         <div className="row p-2">
-          <label class="col-sm-2 col-form-label"> <b> Date :</b></label>
+          <label class="col-sm-2 col-form-label">
+            {" "}
+            <b> Date :</b>
+          </label>
           <div class="col-4">
-
-            <input type="date" class="form-control" placeholder="Last name" aria-label="Last name" value={monthdate} />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker label="Basic date picker" value={monthdate} />
+              </DemoContainer>
+            </LocalizationProvider>
           </div>
-          <label class="col-sm-2 col-form-label"> <b>  Invoice Reference :</b></label>
+          <label class="col-sm-2 col-form-label">
+            {" "}
+            <b> Invoice Reference :</b>
+          </label>
           <div class="col-4">
-            <LocalizationProvider dateAdapter={AdapterDayjs} className="monthpicker" >
-              <DemoContainer components={['DatePicker', 'DatePicker', 'DatePicker']}>
-                <DatePicker label={'"month" and "year"'} views={['month', 'year']} />
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              className="monthpicker"
+            >
+              <DemoContainer
+                components={["DatePicker", "DatePicker", "DatePicker"]}
+              >
+                <DatePicker
+                  label={'"month" and "year"'}
+                  views={["month", "year"]}
+                  value={monthdate}
+                />
               </DemoContainer>
             </LocalizationProvider>
           </div>
         </div>
         <div className="col threebutton">
-          <button type="button" class="btn btn-primary btn-sm m-2">Email Invoices </button>
-          <button type="button" class="btn btn-primary btn-sm m-2">Approves Invoices</button>
-          <button type="button" class="btn btn-primary btn-sm m-2">Combine and Download</button>
+          <button type="button" class="btn btn-primary btn-sm m-2">
+            Email Invoices{" "}
+          </button>
+          <button type="button" class="btn btn-primary btn-sm m-2">
+            Approves Invoices
+          </button>
+          <button type="button" class="btn btn-primary btn-sm m-2">
+            Combine and Download
+          </button>
         </div>
       </div>
-
-
 
       <hr />
 
       <>
-
         <div className="container p-4">
-
           <table className=" table suppliertable   border-dark  caption-top table-hover ">
             <caption>List of Supplier</caption>
             <thead>
-              <tr>
-                <th > <input className='inputcell' value="sr.no" /> </th>
-                <th> <input className='inputcell' value="supplier" /> </th>
-                <th> <input className='inputcell' value="hairServices" /> </th>
-                <th > <input className='inputcell' value="beautyServices" />  </th>
-                <th> <input className='inputcell' value="custom1" /> </th>
-                <th  > <input className='inputcell' value="custom2" /> </th>
-                <th > <input className='inputcell' value="custom3" /> </th>
-                <th > <input className='inputcell' value="custom4" /> </th>
-                <th > <input className='inputcell' value="Net" /> </th>
-                <th  > <input className='inputcell' value="VAT" />  </th>
-                <th > <input className='inputcell' value="Gross" /> </th>
-                <th > <input className='inputcell' value="AdvancePaid" /> </th>
-                <th > <input className='inputcell' value="balanceDue" /> </th>
-              </tr>
+              {headerdata?.map((data, index) => (
+                <>
+
+                  <tr>
+                    <th>
+                      <input className="inputcell" value="sr.no" />{" "}
+                    </th>
+                    <th>
+                      <input className="inputcell" value="supplier" />{" "}
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+
+                        onChange={(e) => {
+                          ChangeHeaderValue(e, data);
+                        }}
+                        name="hairservices"
+                        value={data?.header_data?.hairservices}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.beautyservices}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.custom1}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.custom2}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.custom3}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.custom4}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.Net}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.VAT}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.Advancepaid}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        className="inputcell"
+                        value={data?.header_data?.balancedue}
+                      />
+                    </th>
+                  </tr>
+                </>
+              ))}
             </thead>
 
             <tbody className=" table table-group-divider">
-              {supplierdata.map((data, index) => (
-                <tr key={index} >
-                  <th > <input className='inputcell' value={index + 1} /> </th>
-                  <td ><input className='inputcell' name='supplier' value={data?.supplier} onChange={ChangeTableValue} />  </td>
-                  <td > <input className='inputcell' name='hair_services' value={data?.hair_services} onChange={ChangeTableValue} /> </td>
-                  <td ><input className='inputcell' name='beauty_services' value={data?.beauty_services} onChange={ChangeTableValue} />  </td>
-                  <td > <input className='inputcell' name='custom_1' value={data?.custom_1} onChange={ChangeTableValue} /> </td>
-                  <td ><input className='inputcell' name='custom_2' value={data?.custom_2} onChange={ChangeTableValue} />  </td>
-                  <td > <input className='inputcell' name='custom_3' value={data?.custom_3} onChange={ChangeTableValue} /> </td>
-                  <td ><input className='inputcell' name='custom_4' value={data?.custom_4} onChange={ChangeTableValue} />  </td>
-                  <td > <input className='inputcell' name='Net' value={data?.Net} onChange={ChangeTableValue} /> </td>
-                  <td ><input className='inputcell' name='VAT' value={data?.VAT} onChange={ChangeTableValue} />  </td>
-                  <td > <input className='inputcell' name='Gross' value={data?.Gross} onChange={ChangeTableValue} /> </td>
-                  <td ><input className='inputcell' name='Advance_paid' value={data?.Advance_paid} onChange={ChangeTableValue} />  </td>
-                  <td > <input className='inputcell' name='balance_due' value={data?.balance_due} onChange={ChangeTableValue} /> </td>
-                </tr>
+              {supplierdata?.map((data, index) => (
+                <>
+                  {
+                    console.log("table data ", data)
+                  }
+                  <tr key={index}>
+                    <th>
+                      <input className="inputcell" value={index + 1} readOnly />{" "}
+                    </th>
+                    <td>
+                      <input className="inputcell" value={data?.name} />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        type="number"
+                        name="col_1"
+                        value={data?.invoices[0]?.col_1}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        type="number"
+                        name="col_2"
+                        value={data?.invoices[0]?.col_2}
+                        defaultValue={a}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        name="col_3"
+                        value={data?.invoices[0]?.col_3}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        name="col_4"
+                        value={data?.invoices[0]?.col_4}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        name="col_5"
+                        value={data?.invoices[0]?.col_5}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        name="col_6"
+                        value={data?.invoices[0]?.col_6}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        name="col_7"
+                        value={
+                          parseInt(data?.invoices[0]?.col_1) +
+                          parseInt(data?.invoices[0]?.col_2) +
+                          parseInt(data?.invoices[0]?.col_3) +
+                          parseInt(data?.invoices[0]?.col_4) +
+                          parseInt(data?.invoices[0]?.col_5) +
+                          parseInt(data?.invoices[0]?.col_6)
+                        }
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        name="col_8"
+                        value={data?.invoices[0]?.col_8}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        name="col_9"
+                        value={data?.invoices[0]?.col_9}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="inputcell"
+                        name="col_10"
+                        value={data?.invoices[0]?.col_10}
+                        onChange={(e) => {
+                          ChangeTableValue(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input type="checkbox" />
+                    </td>
+                  </tr>
+                </>
               ))}
             </tbody>
           </table>
+
+          <button type="button" class="btn btn-success" onClick={saveSupplierData} >Save</button>
         </div>
-
-
-
-
-
-
-
       </>
-
-
     </>
-  )
+  );
 }

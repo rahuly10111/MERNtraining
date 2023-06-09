@@ -19,17 +19,30 @@ model user {
 }
 
 model supplier {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  supplier        String
-  hair_services   Float
-  beauty_services Float
-  custom_1        Float
-  custom_2        Float
-  custom_3        Float
-  custom_4        Float
-  Net             Float
-  VAT             Float
-  Gross           Float
-  Advance_paid    Float
-  balance_due     Float
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  invoices invoice[]
+}
+
+model header {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  header_data Json
+  update_date String
+}
+
+model invoice {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  col_1       Int
+  col_2       Int
+  col_3       Int
+  col_4       Int
+  col_5       Int
+  col_6       Int
+  col_7       Int
+  col_8       Int
+  col_9       Int
+  col_10      Int
+  update_date String
+  supplierId  String   @db.ObjectId
+  supplier    supplier @relation(fields: [supplierId], references: [id])
 }

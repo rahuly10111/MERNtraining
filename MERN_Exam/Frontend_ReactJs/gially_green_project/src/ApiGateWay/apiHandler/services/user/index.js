@@ -59,7 +59,7 @@ export const UserService = {
 
     ViewIdUsers: async (userId) => {
         console.log("fgdfgdfgdfsgd")
-        console.log("service",userId)
+        console.log("service", userId)
         const reqestObj = new requestModel();
         try {
             reqestObj.method = requestMethod.GET;
