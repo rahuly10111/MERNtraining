@@ -10,6 +10,9 @@ router.post('/postsupplier', suppliercontroller.suppliercontroller.suppliersDeta
 
 router.get('/getsupplierMonth/:month', suppliercontroller.suppliercontroller.getInvoicesMonthData);
 
+router.put('/putsupplier', suppliercontroller.suppliercontroller.putSupplierDetails);
+
+
 router.get('/getheader', suppliercontroller.suppliercontroller.getHeader);
 
 

@@ -5,15 +5,24 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DataGrid } from "@mui/x-data-grid";
-import { GetSupplierData, PostSupplierData, GetHeaderData, getMonthSupplierData } from "../Redux/Action/SupplierAction";
+import {
+  GetSupplierData,
+  PostSupplierData,
+  GetHeaderData,
+  getMonthSupplierData,
+} from "../Redux/Action/SupplierAction";
 import dayjs from "dayjs";
 
 export default function DashBoard() {
   const dispatch = useDispatch();
-  const supplierState = useSelector((state) => state?.getSupplier?.supplierData);
+  const supplierState = useSelector(
+    (state) => state?.getSupplier?.supplierData
+  );
   const headerState = useSelector((state) => state?.getHeader?.headerData);
 
-  const MonthSupplierState = useSelector((state) => state?.getMonthSupplier?.supplierData);
+  const MonthSupplierState = useSelector(
+    (state) => state?.getMonthSupplier?.supplierData
+  );
 
   const [supplierdata, setsupplierdata] = useState([]);
   const [headerdata, setheaderdata] = useState([]);
@@ -29,8 +38,9 @@ export default function DashBoard() {
   function ChangeTableValue(e, index) {
     setsupplierdata((prev) =>
       prev.map((d, i) => {
-        console.log(" check d", d)
-        if (i === index) d.invoices[0][e.target.name] = parseInt(e?.target?.value);
+        console.log(" check d", d);
+        if (i === index)
+          d.invoices[0][e.target.name] = parseInt(e?.target?.value);
         return d;
       })
     );
@@ -56,14 +66,11 @@ export default function DashBoard() {
     // setsupplierdata(updateNetData)
   }
 
-
   function ChangeHeaderValue(e, data) {
-
-    var a = data.header_data
+    var a = data.header_data;
 
     setheaderdata([a, { [e.target.name]: e.target.value }]);
   }
-
 
   function changeDate(e) {
     const givenDate = new Date(e);
@@ -75,10 +82,12 @@ export default function DashBoard() {
     );
     const lastDayOfMonth = new Date(nextMonth.getTime() - 1);
     const lastDate = new Date(lastDayOfMonth);
-    setmonthdate(dayjs(lastDate))
-    var invoicesMonth = new Date(givenDate).toLocaleString('default', { month: 'long', year: 'numeric' });
+    setmonthdate(dayjs(lastDate));
+    var invoicesMonth = new Date(givenDate).toLocaleString("default", {
+      month: "long",
+      year: "numeric",
+    });
     dispatch(getMonthSupplierData(invoicesMonth));
-
   }
 
   useEffect(() => {
@@ -88,30 +97,30 @@ export default function DashBoard() {
     } else {
       supplierState?.map((data, index) => {
         dataes.push({
-          "id": data.id,
-          "name": data.name,
-          "invoices": [
+          id: data.id,
+          name: data.name,
+          invoices: [
             {
-              // "id": "",
-              "col_1": 0,
-              "col_2": 0,
-              "col_3": 0,
-              "col_4": 0,
-              "col_5": 0,
-              "col_6": 0,
-              "col_7": 0,
-              "col_8": 0,
-              "col_9": 0,
-              "col_10": 0,
-              "update_date": new Date(monthdate).toLocaleString('default', { month: 'long', year: 'numeric' })
-            }
-          ]
-        })
-
-
-      })
+              id: undefined,
+              col_1: 0,
+              col_2: 0,
+              col_3: 0,
+              col_4: 0,
+              col_5: 0,
+              col_6: 0,
+              col_7: 0,
+              col_8: 0,
+              col_9: 0,
+              col_10: 0,
+              update_date: new Date(monthdate).toLocaleString("default", {
+                month: "long",
+                year: "numeric",
+              }),
+            },
+          ],
+        });
+      });
       setsupplierdata(dataes);
-
     }
 
     setheaderdata(headerState);
@@ -122,9 +131,6 @@ export default function DashBoard() {
   function saveSupplierData() {
     dispatch(PostSupplierData(supplierdata));
   }
-
-
-
 
   return (
     <>
@@ -138,7 +144,6 @@ export default function DashBoard() {
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
               className="monthpicker"
-
             >
               <DemoContainer
                 components={["DatePicker", "DatePicker", "DatePicker"]}
@@ -150,7 +155,6 @@ export default function DashBoard() {
                   onChange={(e) => {
                     changeDate(e);
                   }}
-
                 />
               </DemoContainer>
             </LocalizationProvider>
@@ -211,7 +215,6 @@ export default function DashBoard() {
             <thead>
               {headerdata?.map((data, index) => (
                 <>
-
                   <tr>
                     <th>
                       <input className="inputcell" value="sr.no" />{" "}
@@ -222,7 +225,6 @@ export default function DashBoard() {
                     <th>
                       <input
                         className="inputcell"
-
                         onChange={(e) => {
                           ChangeHeaderValue(e, data);
                         }}
@@ -292,9 +294,7 @@ export default function DashBoard() {
             <tbody className=" table table-group-divider">
               {supplierdata?.map((data, index) => (
                 <>
-                  {
-                    console.log("table data ", data)
-                  }
+                  {console.log("table data ", data)}
                   <tr key={index}>
                     <th>
                       <input className="inputcell" value={index + 1} readOnly />{" "}
@@ -421,7 +421,13 @@ export default function DashBoard() {
             </tbody>
           </table>
 
-          <button type="button" class="btn btn-success" onClick={saveSupplierData} >Save</button>
+          <button
+            type="button"
+            class="btn btn-success"
+            onClick={saveSupplierData}
+          >
+            Save
+          </button>
         </div>
       </>
     </>
