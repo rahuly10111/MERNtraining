@@ -52,7 +52,8 @@ class suppliercontroller {
                     "col_8": data?.invoices[0]?.col_8,
                     "col_9": data?.invoices[0]?.col_9,
                     "col_10": data?.invoices[0]?.col_10,
-                    "update_date": data?.invoices[0]?.update_date
+                    "update_date": data?.invoices[0]?.update_date,
+                    "ischeck": data?.invoices[0]?.ischeck
                 })
 
             })
@@ -128,7 +129,8 @@ class suppliercontroller {
                     "col_8": data?.invoices[0]?.col_8,
                     "col_9": data?.invoices[0]?.col_9,
                     "col_10": data?.invoices[0]?.col_10,
-                    "update_date": data?.invoices[0]?.update_date
+                    "update_date": data?.invoices[0]?.update_date,
+                    "ischeck": data?.invoices[0]?.ischeck
                 })
 
             })

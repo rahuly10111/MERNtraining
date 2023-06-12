@@ -41,6 +41,7 @@ class supplierrepository {
                     col_9: invoices.col_9,
                     col_10: invoices.col_10,
                     update_date: invoices.update_date,
+                    ischeck: invoices.ischeck
                 },
             });
         });

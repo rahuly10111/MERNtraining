@@ -1,6 +1,6 @@
 
 import { supplierAPI } from "../../ApiGateWay/apiHandler/controllers";
-import { SUPPLIER_GET_DATA, SUPPLIER_POST_DATA, HEADER_GET_DATA, SUPPLIER_GET_MONTH_DATA, SUPPLIER_PUT_DATA, HEADER_GET_MONTH_DATA , HEADER_POST_DATA, HEADER_PUT_DATA, EMAIL_POST_DATA} from "./ActionType";
+import { SUPPLIER_GET_DATA, SUPPLIER_POST_DATA, HEADER_GET_DATA, SUPPLIER_GET_MONTH_DATA, SUPPLIER_PUT_DATA, HEADER_GET_MONTH_DATA, HEADER_POST_DATA, HEADER_PUT_DATA, EMAIL_POST_DATA } from "./ActionType";
 
 
 export function GetSupplierData() {
@@ -254,7 +254,7 @@ export function GetHeaderData() {
 
 
 export function PostEmail(data) {
-   
+
     return async function (dispatch) {
         dispatch({ type: EMAIL_POST_DATA.REQ_EMAIL_POST_DATA })
         try {
