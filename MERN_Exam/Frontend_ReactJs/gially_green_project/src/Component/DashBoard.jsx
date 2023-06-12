@@ -5,11 +5,17 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DataGrid } from "@mui/x-data-grid";
+import axios from 'axios';
 import {
   GetSupplierData,
   PostSupplierData,
   GetHeaderData,
   getMonthSupplierData,
+  PutSupplierData,
+  getMonthHeaderData,
+  PostHeaderData,
+  PutHeaderData,
+  PostEmail
 } from "../Redux/Action/SupplierAction";
 import dayjs from "dayjs";
 
@@ -23,12 +29,33 @@ export default function DashBoard() {
   const MonthSupplierState = useSelector(
     (state) => state?.getMonthSupplier?.supplierData
   );
+  console.log("first supplier", MonthSupplierState);
+
+  const MonthHeaderState = useSelector(
+    (state) => state?.getMonthHeader?.headerData
+  );
+  console.log("second Header ", MonthHeaderState.length);
 
   const [supplierdata, setsupplierdata] = useState([]);
   const [headerdata, setheaderdata] = useState([]);
   const [monthdate, setmonthdate] = useState();
+  const [checkedItems, setCheckedItems] = useState([]);
+
+  const [user, setUser] = useState({
+    to: "rahulvy4228@gmail.com",
+    subject: "hello",
+    description: ""
+  });
+
+  async function emailInvoices() {
+    dispatch(PostEmail(user))
+   // await axios.post("http://localhost:3030/giallygreen/postemail", user)
+    console.log("donedkjs")
+  }
 
   // dayjs(new Date())
+
+  console.log("checked ", checkedItems)
 
   useEffect(() => {
     dispatch(GetSupplierData());
@@ -67,9 +94,16 @@ export default function DashBoard() {
   }
 
   function ChangeHeaderValue(e, data) {
-    var a = data.header_data;
+    setheaderdata((prev) =>
+      prev.map((d, i) => {
+        console.log(" header d", d);
+        d.header_data[e.target.name] = e?.target?.value;
+        return d;
+      })
+    );
 
-    setheaderdata([a, { [e.target.name]: e.target.value }]);
+    console.log("header", headerdata)
+    //setheaderdata({ ...headerdata[0]?.header_data, [e.target.name]: e.target.value });
   }
 
   function changeDate(e) {
@@ -88,13 +122,51 @@ export default function DashBoard() {
       year: "numeric",
     });
     dispatch(getMonthSupplierData(invoicesMonth));
+    dispatch(getMonthHeaderData(invoicesMonth))
   }
+
+  const handleCheckboxChange = (index) => {
+    setCheckedItems((prevCheckedItems) => {
+      const newCheckedItems = [...prevCheckedItems];
+      newCheckedItems[index] = !newCheckedItems[index];
+      return newCheckedItems;
+    });
+  };
+
+  useEffect(() => {
+    let dataes = [];
+    if (MonthHeaderState.length === 1) {
+      setheaderdata(MonthHeaderState);
+    } else {
+
+      dataes.push({
+        id: undefined,
+        header_data:
+        {
+          header_1: "custom1",
+          header_2: "custom2",
+          header_3: "custom3",
+          header_4: "custom4",
+          header_5: "custom5",
+          header_6: "custom6",
+        },
+        update_date: new Date(monthdate).toLocaleString("default", {
+          month: "long",
+          year: "numeric",
+        }),
+      });
+
+      setheaderdata(dataes);
+
+    }
+  }, [MonthHeaderState, monthdate])
 
   useEffect(() => {
     let dataes = [];
     if (MonthSupplierState[0]?.invoices?.length === 1) {
       setsupplierdata(MonthSupplierState);
     } else {
+      console.log("supplier state", supplierState)
       supplierState?.map((data, index) => {
         dataes.push({
           id: data.id,
@@ -123,14 +195,29 @@ export default function DashBoard() {
       setsupplierdata(dataes);
     }
 
-    setheaderdata(headerState);
+    // setheaderdata(headerState);
   }, [MonthSupplierState, monthdate]);
 
   const a = 0;
 
   function saveSupplierData() {
-    dispatch(PostSupplierData(supplierdata));
+
+    if (supplierdata[0]?.invoices[0]?.id === undefined) {
+      dispatch(PostSupplierData(supplierdata));
+    } else {
+      dispatch(PutSupplierData(supplierdata));
+    }
+
+    if (headerdata[0]?.id === undefined) {
+      dispatch(PostHeaderData(headerdata));
+    } else {
+      dispatch(PutHeaderData(headerdata));
+
+    }
+
   }
+
+
 
   return (
     <>
@@ -194,7 +281,7 @@ export default function DashBoard() {
           </div>
         </div>
         <div className="col threebutton">
-          <button type="button" class="btn btn-primary btn-sm m-2">
+          <button type="button" class="btn btn-primary btn-sm m-2" onClick={emailInvoices} >
             Email Invoices{" "}
           </button>
           <button type="button" class="btn btn-primary btn-sm m-2">
@@ -213,8 +300,10 @@ export default function DashBoard() {
           <table className=" table suppliertable   border-dark  caption-top table-hover ">
             <caption>List of Supplier</caption>
             <thead>
+              {console.log("bvheaderv", headerdata)}
               {headerdata?.map((data, index) => (
                 <>
+                  {console.log("header data ", data)}
                   <tr>
                     <th>
                       <input className="inputcell" value="sr.no" />{" "}
@@ -228,62 +317,82 @@ export default function DashBoard() {
                         onChange={(e) => {
                           ChangeHeaderValue(e, data);
                         }}
-                        name="hairservices"
-                        value={data?.header_data?.hairservices}
+                        name="header_1"
+                        value={data?.header_data?.header_1}
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.beautyservices}
+                        onChange={(e) => {
+                          ChangeHeaderValue(e, data);
+                        }}
+                        name="header_2"
+                        value={data?.header_data?.header_2}
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.custom1}
+                        onChange={(e) => {
+                          ChangeHeaderValue(e, data);
+                        }}
+                        name="header_3"
+                        value={data?.header_data?.header_3}
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.custom2}
+                        onChange={(e) => {
+                          ChangeHeaderValue(e, data);
+                        }}
+                        name="header_4"
+                        value={data?.header_data?.header_4}
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.custom3}
+                        onChange={(e) => {
+                          ChangeHeaderValue(e, data);
+                        }}
+                        name="header_5"
+                        value={data?.header_data?.header_5}
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.custom4}
+                        onChange={(e) => {
+                          ChangeHeaderValue(e, data);
+                        }}
+                        name="header_6"
+                        value={data?.header_data?.header_6}
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.Net}
+                        value="Net"
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.VAT}
+                        value="VAT"
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.Advancepaid}
+                        value="AdvancePaid"
                       />
                     </th>
                     <th>
                       <input
                         className="inputcell"
-                        value={data?.header_data?.balancedue}
+                        value="BalanceDue"
                       />
                     </th>
                   </tr>
@@ -295,7 +404,7 @@ export default function DashBoard() {
               {supplierdata?.map((data, index) => (
                 <>
                   {console.log("table data ", data)}
-                  <tr key={index}>
+                  <tr key={index} style={{ background: checkedItems[index] ? 'lightgreen' : 'white' }} >
                     <th>
                       <input className="inputcell" value={index + 1} readOnly />{" "}
                     </th>
@@ -412,8 +521,13 @@ export default function DashBoard() {
                         }}
                       />
                     </td>
-                    <td>
-                      <input type="checkbox" />
+                    <td >
+                      {/* <input type="checkbox" /> */}
+                      <input
+                        type="checkbox"
+                        checked={checkedItems[index] || false}
+                        onChange={() => handleCheckboxChange(index)}
+                      />
                     </td>
                   </tr>
                 </>

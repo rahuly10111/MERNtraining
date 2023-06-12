@@ -21,14 +21,9 @@ class supplierrepository {
     }
 
     async putSupplier(invoicesData: any) {
-        console.log("repo invoice data ", invoicesData)
-        // let responsesupplier = await prisma.invoice.update({
-        //     where: { id: invoiceid },
-        //     data: invoicesData
-        // })
-        // return responsesupplier;
+
         const updatePromises = invoicesData.map((invoices: any) => {
-            console.log("invoiesvhjcgsa",invoices)
+
             return prisma.invoice.update({
                 where: {
                     id: invoices.id,
@@ -51,7 +46,7 @@ class supplierrepository {
         });
         const updatedInvoices = await Promise.all(updatePromises);
 
-        console.log("gfdgdfhdfxh", updatePromises)
+
         return updatedInvoices;
     }
 
@@ -70,6 +65,36 @@ class supplierrepository {
 
         })
         return supplierresponse;
+    }
+
+
+    async getHeaderMonth(headerMonth: string) {
+        let responseheader = await prisma.header.findMany({
+            where: {
+                update_date: headerMonth
+            }
+        })
+        return responseheader;
+    }
+
+    async postHeader(headerData: any) {
+       
+        let responseheader = await prisma.header.create({
+            data: headerData[0]
+        });
+        return responseheader;
+    }
+
+    async putHeader(headerData: any) {
+       
+        let responseheader = await prisma.header.update({
+            where: { id: headerData[0]?.id },
+            data: {
+                header_data: headerData[0]?.header_data,
+                update_date: headerData[0]?.update_date
+            }
+        })
+        return responseheader;
     }
 
 

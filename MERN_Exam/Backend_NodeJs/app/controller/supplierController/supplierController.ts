@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { responseModel } from "../../../interface";
 import { supplierdetails } from "../../model/supplierInterface";
 import supplierrepository from '../../repository/index'
+import nodemailer from 'nodemailer';
 
 
 
@@ -28,11 +29,11 @@ class suppliercontroller {
     async suppliersDetail(req: Request, res: Response) {
 
         try {
-            const d = req.body;
-            console.log("d", d);
+            const data = req.body;
+
             let invoicesData: any = [];
-            d?.map((data: any, index: any) => {
-                console.log("dfdsf", data)
+            data?.map((data: any, index: any) => {
+
                 invoicesData.push({
                     "supplierId": data?.id,
                     "id": data?.invoices[0]?.id,
@@ -56,27 +57,6 @@ class suppliercontroller {
 
             })
 
-            console.log("first", invoicesData)
-            // var car = { data }
-            // console.log("aa", car)
-
-            // {
-            //     invoicesData?.map((data: any, index: any) => (
-            //         console.log("lkjlk", data)
-            //     ))
-            // }
-
-            console.log("first id ", invoicesData[0]?.id)
-
-            // if (invoicesData[0]?.id == undefined) {
-            //     const supplierresponse = await supplierrepository.supplierrepository.postSupplier(invoicesData);
-            //     response.status = 200
-            //     response.message = " User  data Added success "
-            //     response.data = supplierresponse
-            //     response.token = null
-            // } else {
-            //     console.log("first  heelo ")
-            // }
 
             const supplierresponse = await supplierrepository.supplierrepository.postSupplier(invoicesData);
             response.status = 200
@@ -124,12 +104,12 @@ class suppliercontroller {
 
 
         try {
-            //  const invoiceid = req.params.id;
-            const d = req.body;
-            console.log("d", d);
+
+            const data = req.body;
+
             let invoicesData: any = [];
-            d?.map((data: any, index: any) => {
-                console.log("dfdsf", data)
+            data?.map((data: any, index: any) => {
+
                 invoicesData.push({
                     "supplierId": data?.id,
                     "id": data?.invoices[0]?.id,
@@ -158,7 +138,57 @@ class suppliercontroller {
             response.message = " Supplier  data Updated success "
             response.data = supplierresponse
             response.token = null
-console.log("efdfvfirst",supplierresponse)
+            console.log("efdfvfirst", supplierresponse)
+        } catch (error) {
+            console.log("resqw", error);
+            response.status = 400
+            response.message = error as string
+            response.data = null
+            response.token = null
+        }
+        res.send(response);
+    }
+
+
+    async getHeaderMonthData(req: Request, res: Response) {
+
+        try {
+            const headerMonth = req.params.month;
+            const headerresponse = await supplierrepository.supplierrepository.getHeaderMonth(headerMonth);
+            response.status = 200
+            response.message = " Header  data Get success "
+            response.data = headerresponse
+
+        } catch (error) {
+            console.log(error);
+            response.status = 400
+            response.message = error as string
+            response.data = null
+        }
+        res.send(response);
+
+
+
+    }
+
+
+    async postHeaderDetail(req: Request, res: Response) {
+        try {
+            const data = req.body;
+
+            let headerData: any = [];
+            headerData.push({
+                "header_data": data[0]?.header_data,
+                "update_date": data[0]?.update_date
+            })
+
+
+            const responseheader = await supplierrepository.supplierrepository.postHeader(headerData);
+            response.status = 200
+            response.message = " User  data Added success "
+            response.data = responseheader
+            response.token = null
+
         } catch (error) {
             console.log("resqw", error);
             response.status = 400
@@ -171,11 +201,34 @@ console.log("efdfvfirst",supplierresponse)
 
 
 
+    async putHeaderDetail(req: Request, res: Response) {
+
+        try {
+            const data = req.body;
+
+            let headerData: any = [];
+            headerData.push({
+                "id": data[0]?.id,
+                "header_data": data[0]?.header_data,
+                "update_date": data[0]?.update_date
+            })
 
 
+            const responseheader = await supplierrepository.supplierrepository.putHeader(headerData);
+            response.status = 200
+            response.message = " User  data Added success "
+            response.data = responseheader
+            response.token = null
 
-
-
+        } catch (error) {
+            console.log("resqw", error);
+            response.status = 400
+            response.message = error as string
+            response.data = null
+            response.token = null
+        }
+        res.send(response);
+    }
 
 
 
@@ -202,6 +255,51 @@ console.log("efdfvfirst",supplierresponse)
         }
         res.send(response);
     }
+
+
+
+
+
+    async postEmail(req: Request, res: Response) {
+
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'rahuly10111@gmail.com',
+                pass: 'abgqmsuoabnlzyrx'
+            }
+        });
+
+        var mailOptions = {
+            from: 'rahuly10111@gmail.com',// sender address
+            to: req.body.to, // list of receivers
+            subject: req.body.subject, // Subject line
+            text: req.body.description,
+            html: `
+            <div style="padding:10px;border-style: ridge">
+            <p>You have a new contact request.</p>
+            <h3>Contact Details</h3>
+            <ul>
+                <li>Email: ${req.body.to}</li>
+                <li>Subject: ${req.body.subject}</li>
+                <li>Message: ${req.body.description}</li>
+            </ul>
+            `
+        };
+
+        transporter.sendMail(mailOptions, function (error: any, info: any) {
+            if (error) {
+                res.json({ status: true, respMesg: 'Email Sent Successfully' })
+            }
+            else {
+                res.json({ status: true, respMesg: 'Email Sent Successfully' })
+            }
+
+        });
+
+
+    }
+
 
 
 
