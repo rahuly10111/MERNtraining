@@ -41,9 +41,10 @@ model invoice {
   col_7       Int
   col_8       Int
   col_9       Int
-  col_10      Int
+  col_10      Float
   update_date String
   ischeck     Boolean
+  isapprove   Boolean
   supplierId  String   @db.ObjectId
   supplier    supplier @relation(fields: [supplierId], references: [id])
 }

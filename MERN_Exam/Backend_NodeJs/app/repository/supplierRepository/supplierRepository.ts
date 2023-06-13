@@ -41,7 +41,8 @@ class supplierrepository {
                     col_9: invoices.col_9,
                     col_10: invoices.col_10,
                     update_date: invoices.update_date,
-                    ischeck: invoices.ischeck
+                    ischeck: invoices.ischeck,
+                    isapprove: invoices.isapprove
                 },
             });
         });
@@ -79,7 +80,7 @@ class supplierrepository {
     }
 
     async postHeader(headerData: any) {
-       
+
         let responseheader = await prisma.header.create({
             data: headerData[0]
         });
@@ -87,7 +88,7 @@ class supplierrepository {
     }
 
     async putHeader(headerData: any) {
-       
+
         let responseheader = await prisma.header.update({
             where: { id: headerData[0]?.id },
             data: {

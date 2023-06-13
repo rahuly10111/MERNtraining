@@ -19,7 +19,7 @@ class logincontroller {
 
             if (userresponse && (await bcrypt.compare(logindata.password, userresponse.password))) {
                 const token = jwt.sign({ userId: userresponse.id }, process.env.JWT_SECRET!, {
-                    expiresIn: '1h',
+                    expiresIn: '24h',
                 });
                 response.status = 200
                 response.message = " User Has Logined successfully "

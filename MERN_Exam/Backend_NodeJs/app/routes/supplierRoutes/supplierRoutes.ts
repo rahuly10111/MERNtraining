@@ -25,6 +25,6 @@ router.get('/getheader', suppliercontroller.suppliercontroller.getHeader);
 
 router.post('/postemail', suppliercontroller.suppliercontroller.postEmail);
 
-
+router.post('/postpdf', suppliercontroller.suppliercontroller.postpdf);
 
 export default router;
