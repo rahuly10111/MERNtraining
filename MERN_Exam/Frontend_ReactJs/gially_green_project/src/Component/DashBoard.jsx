@@ -29,12 +29,12 @@ export default function DashBoard() {
   const MonthSupplierState = useSelector(
     (state) => state?.getMonthSupplier?.supplierData
   );
- 
+
 
   const MonthHeaderState = useSelector(
     (state) => state?.getMonthHeader?.headerData
   );
-  
+
 
   const [supplierdata, setsupplierdata] = useState([]);
   const [headerdata, setheaderdata] = useState([]);
@@ -497,7 +497,21 @@ export default function DashBoard() {
                               color: "blue"
                             }}
                             name="col_8"
-                            value={20}
+                            value= {(
+                              parseInt(data?.invoices[0]?.col_1) +
+                              parseInt(data?.invoices[0]?.col_2) +
+                              parseInt(data?.invoices[0]?.col_3) +
+                              parseInt(data?.invoices[0]?.col_4) +
+                              parseInt(data?.invoices[0]?.col_5) +
+                              parseInt(data?.invoices[0]?.col_6)
+                            ) + ((20 / 100) * (
+                              parseInt(data?.invoices[0]?.col_1) +
+                              parseInt(data?.invoices[0]?.col_2) +
+                              parseInt(data?.invoices[0]?.col_3) +
+                              parseInt(data?.invoices[0]?.col_4) +
+                              parseInt(data?.invoices[0]?.col_5) +
+                              parseInt(data?.invoices[0]?.col_6)
+                            ))}
                             onChange={(e) => {
                               ChangeTableValue(e, index);
                             }}

@@ -33,7 +33,7 @@ export function GetSupplierData() {
 }
 
 export function PostSupplierData(data) {
-   
+
     return async function (dispatch) {
         dispatch({ type: SUPPLIER_POST_DATA.REQ_SUPPLIER_POST_DATA })
         try {
@@ -64,7 +64,7 @@ export function PostSupplierData(data) {
 
 
 export function PutSupplierData(data) {
-    
+
     return async function (dispatch) {
         dispatch({ type: SUPPLIER_PUT_DATA.REQ_SUPPLIER_PUT_DATA })
         try {
@@ -101,7 +101,7 @@ export function getMonthSupplierData(invoicesMonth) {
         dispatch({ type: SUPPLIER_GET_MONTH_DATA.REQ_SUPPLIER_GET_MONTH_DATA })
         try {
             const res = await supplierAPI.getMonthSupplier(invoicesMonth);
-           
+
             if (res.ResponseStatus === 200) {
                 const { data } = res.Result;
                 dispatch({
@@ -133,7 +133,7 @@ export function getMonthHeaderData(headerMonth) {
         dispatch({ type: HEADER_GET_MONTH_DATA.REQ_HEADER_GET_MONTH_DATA })
         try {
             const res = await supplierAPI.getMonthHeader(headerMonth);
-         
+
             if (res.ResponseStatus === 200) {
                 const { data } = res.Result;
                 dispatch({
@@ -160,7 +160,7 @@ export function getMonthHeaderData(headerMonth) {
 
 
 export function PostHeaderData(data) {
- 
+
     return async function (dispatch) {
         dispatch({ type: HEADER_POST_DATA.REQ_HEADER_POST_DATA })
         try {
@@ -192,7 +192,7 @@ export function PostHeaderData(data) {
 
 
 export function PutHeaderData(data) {
-  
+
     return async function (dispatch) {
         dispatch({ type: HEADER_PUT_DATA.REQ_HEADER_PUT_DATA })
         try {
@@ -227,7 +227,7 @@ export function GetHeaderData() {
         dispatch({ type: HEADER_GET_DATA.REQ_HEADER_GET_DATA })
         try {
             const res = await supplierAPI.getHeader();
-          
+
             if (res.ResponseStatus === 200) {
                 const { data } = res.Result;
                 dispatch({

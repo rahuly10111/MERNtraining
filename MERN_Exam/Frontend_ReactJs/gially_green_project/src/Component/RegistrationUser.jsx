@@ -42,7 +42,7 @@ export default function RegistrationUser() {
                 </div>
                 <div className="form-group">
                     <label className="form-label" htmlFor="mobile">Mobile:</label>
-                    <input placeholder="Enter your Mobile" className="form-input" name="mobile" type="text" value={userdata.mobile} onChange={ChangeFormValue}  required/>
+                    <input placeholder="Enter your Mobile" className="form-input" name="mobile" type="text" value={userdata.mobile} onChange={ChangeFormValue} required />
                 </div>
                 <button className="form-button" type="button" onClick={SubmitRegistrationForm}  >Submit</button>
             </form>

@@ -140,7 +140,21 @@ class suppliercontroller {
                         parseInt(data?.invoices[0]?.col_4) +
                         parseInt(data?.invoices[0]?.col_5) +
                         parseInt(data?.invoices[0]?.col_6),
-                    "col_8": 20,
+                    "col_8":  (
+                        parseInt(data?.invoices[0]?.col_1) +
+                        parseInt(data?.invoices[0]?.col_2) +
+                        parseInt(data?.invoices[0]?.col_3) +
+                        parseInt(data?.invoices[0]?.col_4) +
+                        parseInt(data?.invoices[0]?.col_5) +
+                        parseInt(data?.invoices[0]?.col_6)
+                    ) + ((20 / 100) * (
+                        parseInt(data?.invoices[0]?.col_1) +
+                        parseInt(data?.invoices[0]?.col_2) +
+                        parseInt(data?.invoices[0]?.col_3) +
+                        parseInt(data?.invoices[0]?.col_4) +
+                        parseInt(data?.invoices[0]?.col_5) +
+                        parseInt(data?.invoices[0]?.col_6)
+                    )),
                     "col_9": data?.invoices[0]?.col_9,
                     "col_10":
                         (
@@ -296,7 +310,7 @@ class suppliercontroller {
             })
         });
 
-      
+
 
         var transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -422,7 +436,7 @@ class suppliercontroller {
         })
 
         var htmlBody = html.map((e: any) => e.replace(/\n/g, ""));
-      
+
         let base64 = htmlBody.map((item: any) => btoa(item))
 
 

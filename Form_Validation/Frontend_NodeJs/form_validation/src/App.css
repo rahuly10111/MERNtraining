@@ -1,0 +1,84 @@
+.App {
+  text-align: center;
+}
+
+body {
+  background-image: url("https://img.freepik.com/premium-vector/watercolor-painted-background-with-hand-drawn-flowers_144721-1485.jpg");
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.colorful-form {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #a6afb7;
+  border-radius: 83px 0px;
+  transition: 0.4s ease-in-out;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  height: 1068px;
+  padding-top: 2.4em;
+  padding-bottom: 3.4em;
+  box-shadow: 18px 28px 28px 4px #000000;
+}
+
+/* .form-group {
+  margin-bottom: 20px;
+} */
+
+.form-button {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  background-color: #1e2f36;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #424244;
+}
+
+.form-control-color {
+  width: 24rem !important;
+}
+
+p {
+  color: red;
+}
+.ageShow {
+  color: rgb(6, 119, 194);
+}
+
+hr {
+  border-top: 0.5px dashed rgb(83, 79, 79);
+}
+
+.form-control {
+  color: #000000 !important;
+  background-color: #c4d3d3;
+  border: var(--bs-border-width) solid #a85454 !important;
+}

@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 import { useNavigate } from "react-router-dom";
 
 export default function UserRegistration() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [userdata, setuserdata] = useState({
         name: "",

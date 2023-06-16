@@ -9,9 +9,9 @@ export default function Protected(props) {
 
     useEffect(() => {
         let login = localStorage.getItem("loginToken");
-        if (!login && login !== undefined) {
-            swal("Data Added!", " You Have Not At Login In !", "warning");
-            navigate("/");
+        if (!login && login === undefined) {
+            //  swal("Data Added!", " You Have Not At Login In !", "warning");
+            navigate(`/`);
         }
     }, []);
 
