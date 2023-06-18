@@ -8,6 +8,8 @@ export default function Form() {
     const initialValues = { name: "", mobile: "", email: "", password: "", Birthday: "", age: "", favcolor: "", time: "", file: null, gender: "", hobbies: [] };
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
+    
+
     // const [isSubmit, setIsSubmit] = useState(false);
     const dispatch = useDispatch();
 
@@ -25,6 +27,8 @@ export default function Form() {
         else {
             setFormValues({ ...formValues, [name]: value });
         }
+          const errors = validate({ ...formValues, [name]: value }); // Validate the updated form values
+          setFormErrors(errors);
     }
 
     const formdata = new FormData();
