@@ -22,5 +22,4 @@ model details {
   hobbies  String[]
   favcolor String
   time     String
- 
 }

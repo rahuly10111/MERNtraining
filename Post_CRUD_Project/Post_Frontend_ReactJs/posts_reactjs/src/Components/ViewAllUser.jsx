@@ -32,6 +32,7 @@ export default function ViewAllUser() {
             {state?.loading ? (
                 <Loader></Loader>
             ) : (
+
                 <div className="cards">
                     <div class="demotable">
                         <div class="demo-content">

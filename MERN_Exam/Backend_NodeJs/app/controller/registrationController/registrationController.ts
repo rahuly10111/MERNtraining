@@ -16,7 +16,7 @@ class registrationcontroller {
                 mobile: req.body.mobile,
             }
             const hashedPassword = await bcrypt.hash(registrationData.password, 10);
-            registrationData.password = hashedPassword
+            registrationData.password = hashedPassword;
 
             const userresponse = await registrationRepositary.registrationRepository.userNewRegistration(registrationData);
             response.status = 200

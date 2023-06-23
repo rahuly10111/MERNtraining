@@ -6,6 +6,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from "react-router-dom";
 import Loader from './Loader';
+import '../../src/Profile.css';
 
 export default function Profile() {
     const dispatch = useDispatch();

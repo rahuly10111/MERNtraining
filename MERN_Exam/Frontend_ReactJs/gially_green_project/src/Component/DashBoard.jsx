@@ -212,13 +212,13 @@ export default function DashBoard() {
         <Loader></Loader>
       ) : (
         <>
-          <div class="row g-3 p-4 ">
+          <div className="row g-3 p-4 ">
             <p>Montly Invoice List </p>
             <div className="row">
-              <label class="col-sm-2 col-form-label">
+              <label className="col-sm-2 col-form-label">
                 <b> Choose Month :</b>
               </label>
-              <div class="col">
+              <div className="col">
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}
                   className="monthpicker"
@@ -239,22 +239,22 @@ export default function DashBoard() {
               </div>
             </div>
             <div className="row p-2">
-              <label class="col-sm-2 col-form-label">
+              <label className="col-sm-2 col-form-label">
                 {" "}
                 <b> Date :</b>
               </label>
-              <div class="col-4">
+              <div className="col-4">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
                     <DatePicker label=" Month Last Date " value={monthdate} />
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
-              <label class="col-sm-2 col-form-label">
+              <label className="col-sm-2 col-form-label">
                 {" "}
                 <b> Invoice Reference :</b>
               </label>
-              <div class="col-4">
+              <div className="col-4">
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}
                   className="monthpicker"
@@ -274,19 +274,19 @@ export default function DashBoard() {
             <div className="col threebutton">
               <button
                 type="button"
-                class="btn btn-primary btn-sm m-2"
+                className="btn btn-primary btn-sm m-2"
                 onClick={emailInvoices}
               >
                 Email Invoices{" "}
               </button>
               <button
                 type="button"
-                class="btn btn-primary btn-sm m-2"
+                className="btn btn-primary btn-sm m-2"
                 onClick={ApproveInvoices}
               >
                 Approves Invoices
               </button>
-              <button type="button" class="btn btn-primary btn-sm m-2" onClick={DownloadPdf}>
+              <button type="button" className="btn btn-primary btn-sm m-2" onClick={DownloadPdf}>
                 Combine and Download
               </button>
             </div>
@@ -295,10 +295,10 @@ export default function DashBoard() {
           <hr />
 
           <>
-            <div className="container p-4">
+            <div className=" datatable p-4">
               <table className=" table    border-dark  caption-top table-hover ">
                 <caption>List of Supplier</caption>
-                <thead class="table-light">
+                <thead className="table-light">
                   {headerdata?.map((data, index) => (
                     <>
 
@@ -497,7 +497,7 @@ export default function DashBoard() {
                               color: "blue"
                             }}
                             name="col_8"
-                            value= {(
+                            value={(
                               parseInt(data?.invoices[0]?.col_1) +
                               parseInt(data?.invoices[0]?.col_2) +
                               parseInt(data?.invoices[0]?.col_3) +
@@ -596,11 +596,6 @@ export default function DashBoard() {
 
 
     </>
-
-
-
-
-
 
   );
 }

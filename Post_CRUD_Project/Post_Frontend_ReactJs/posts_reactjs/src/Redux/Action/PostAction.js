@@ -172,7 +172,7 @@ export function PutPostsData(postid, postdata) {
             }
 
             if (res.ResponseStatus === 403) {
-                console.log("error 403 ",res.ResponseStatus)
+                console.log("error 403 ", res.ResponseStatus)
                 const { message } = res.data;
                 dispatch({
                     type: PostsPutData.FAIL_POST_PUT_DATA,
@@ -190,7 +190,7 @@ export function PutPostsData(postid, postdata) {
 
 
         } catch (error) {
-            console.log("put error ",error.status)
+            console.log("put error ", error.status)
             dispatch({
                 type: PostsPutData.FAIL_POST_PUT_DATA,
                 payload: { error: 'An error occurred while Getting Data' },

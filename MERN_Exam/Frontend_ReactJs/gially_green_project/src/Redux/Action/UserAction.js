@@ -35,21 +35,24 @@ export function RegistrationNewUser(userdata) {
 
 
 
-export function LoginUserData(userData) {
+export function LoginUserData(userData,navigate) {
 
     return async function (dispatch) {
         dispatch({ type: USER_LOGIN_DATA.REQ_USER_LOGIN_DATA })
         try {
             const res = await userAPI.loginUser(userData);
-            if (res.ResponseStatus === 200) {
+            console.log("🚀 ~ file: UserAction.js:44 ~ res:", res)
+           
+            if (res.Result.status === 200) {
                 localStorage.setItem("loginToken", JSON.stringify(res.Result.token))
                 dispatch({
                     type: USER_LOGIN_DATA.SUCCESS_USER_LOGIN_DATA,
                     payload: res.Result,
                 })
+                navigate('/dasboard')
             }
 
-            if (res.ResponseStatus === 400) {
+            if (res.Result.status === 400) {
                 dispatch({
                     type: USER_LOGIN_DATA.FAIL_USER_LOGIN_DATA,
                     payload: res.data,

@@ -140,7 +140,7 @@ class suppliercontroller {
                         parseInt(data?.invoices[0]?.col_4) +
                         parseInt(data?.invoices[0]?.col_5) +
                         parseInt(data?.invoices[0]?.col_6),
-                    "col_8":  (
+                    "col_8": (
                         parseInt(data?.invoices[0]?.col_1) +
                         parseInt(data?.invoices[0]?.col_2) +
                         parseInt(data?.invoices[0]?.col_3) +
