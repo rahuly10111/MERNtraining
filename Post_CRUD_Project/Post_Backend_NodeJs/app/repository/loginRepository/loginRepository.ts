@@ -10,7 +10,8 @@ class loginrepository {
             include: {
                 role: {
                     include:
-                    {permission:true
+                    {
+                        permission: true
                     }
                 }
             }

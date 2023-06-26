@@ -1,0 +1,35 @@
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+
+class orderrepository {
+
+
+    async postOrderDetails(orderdata: any) {
+        console.log("order repo", orderdata)
+        let responseorder = await prisma.order.createMany({
+            data: orderdata
+        });
+        return responseorder;
+    }
+
+
+    async getOrderDetails() {
+        let responseorder = await prisma.order.findMany({
+            include: {
+                stock: true
+            }
+        });
+        // console.log("order", responseorder)
+        return responseorder;
+    }
+
+    async deleteorder(orderid: any) {
+        let responseorder = await prisma.order.delete({
+            where: { id: orderid },
+        })
+        return responseorder;
+    }
+
+}
+
+export default new orderrepository();
