@@ -11,6 +11,7 @@ export function PostStockData(data) {
             const res = await stockAPI.postStock(data);
             if (res.ResponseStatus === 200) {
                 const { data } = res.Result;
+                //  GetStockData();
                 dispatch({
                     type: STOCK_POST_DATA.SUCCESS_STOCK_POST_DATA,
                     payload: data

@@ -5,6 +5,9 @@ import { PostStockData, GetStockData, DeleteStockData } from '../Redux/Action/St
 import swal from 'sweetalert';
 import DataTable from "react-data-table-component";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Stock() {
 
@@ -15,12 +18,15 @@ export default function Stock() {
 
     });
 
+    const [closeModel, setCloseModel] = useState("");
+
     const [formErrors, setFormErrors] = useState({});
 
     // const [stockrecords, setstockrecords] = useState([]);
     const state = useSelector((state) => state?.stockData?.stockData);
     //  console.log("stock data", state);
     //  console.log("order lenth", state[1]?.order?.length);
+
 
 
 
@@ -33,7 +39,7 @@ export default function Stock() {
     useEffect(() => {
         dispatch(GetStockData());
         console.log("firstdvf");
-    }, [])
+    }, []);
 
 
     // let a = JSON.stringify(stockdata);
@@ -60,19 +66,18 @@ export default function Stock() {
 
             if (!found) {
                 dispatch(PostStockData(stockdata));
-                swal("Data Added!", "Post Data Added Success!", "success");
+                // swal("Data Added!", "Post Data Added Success!", "success");
                 setstockdata({
                     stock_name: "",
                     stock_qty: "",
                 });
+                toast("Stock Added Success!");
+                setCloseModel("modal");
 
             } else {
                 alert(" Same Stock Found")
             }
-
         }
-
-
     }
 
 
@@ -93,9 +98,6 @@ export default function Stock() {
         } else if (!numberRegex.test(values.stock_qty)) {
             errors.stock_qty = " This is not a valid stock_qty format!";
         }
-
-
-
         return errors;
     };
 
@@ -112,7 +114,14 @@ export default function Stock() {
         },
         {
             name: "stock_qty",
-            selector: row => row.stock_qty,
+            cell: ((row) => {
+                if (row.order.length === 0) {
+                    return (row.stock_qty);
+                } else {
+                    return ((row.stock_qty) - (row.order[0]?.order_qty));
+                }
+
+            }),
             sortable: true
         },
         {
@@ -150,6 +159,7 @@ export default function Stock() {
                     data-bs-target="#postModal">
                     <label htmlFor="">Add Stock</label>
                 </button>
+                <ToastContainer />
             </div>
 
             <div className='stockdataTable'>
@@ -191,7 +201,7 @@ export default function Stock() {
                         </form>
 
                         <div className="modal-footer justify-content-start">
-                            <button type="button" className="btn btn-primary" id="savepost" onClick={SubmitstockForm} >Save</button>
+                            <button type="button" className="btn btn-primary" id="savepost" onClick={SubmitstockForm} data-bs-dismiss={closeModel} >Save</button>
                             <button type="button" className="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>
@@ -201,3 +211,6 @@ export default function Stock() {
         </>
     )
 }
+
+
+// data-bs-dismiss={closeModel}

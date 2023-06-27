@@ -19,7 +19,7 @@ class orderrepository {
                 stock: true
             }
         });
-        // console.log("order", responseorder)
+    
         return responseorder;
     }
 

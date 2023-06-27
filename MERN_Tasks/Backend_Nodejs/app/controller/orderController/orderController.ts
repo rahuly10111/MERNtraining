@@ -11,7 +11,7 @@ class ordercontroller {
     async orderDetails(req: Request, res: Response) {
         try {
             const data = req.body;
-            console.log("order data", data)
+
             // let array: any = [];
             // array.push(
             //     req.body.stockId

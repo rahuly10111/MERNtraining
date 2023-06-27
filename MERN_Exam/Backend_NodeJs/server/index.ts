@@ -23,14 +23,7 @@ class Server {
     config() {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
-        // this.app.use((req: Request, res: Response, next: NextFunction) => {
-        //     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-        //     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        //     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        //     res.setHeader('Access-Control-Allow-Credentials', 'true');
-        //     next();
-        // });
-
+       
     }
 
     setupRoutes() {
