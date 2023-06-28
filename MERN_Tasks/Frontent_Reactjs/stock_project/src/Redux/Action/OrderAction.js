@@ -9,10 +9,7 @@ export function PostOrder(userdata) {
         try {
             const res = await orderAPI.postOrder(userdata);
             if (res.ResponseStatus === 200) {
-                dispatch({
-                    type: ORDER_POST_DATA.SUCCESS_ORDER_POST_DATA,
-                    payload: "Done",
-                })
+                dispatch(GetOrder());
             }
 
             if (res.ResponseStatus === 400) {
@@ -77,12 +74,7 @@ export function DeleteOrderData(orderId) {
 
 
             if (res.ResponseStatus === 200) {
-
-                dispatch({
-                    type: ORDER_DELETE_DATA.SUCCESS_ORDER_DELETE_DATA,
-                    payload: "Delete Done"
-                })
-
+                dispatch(GetOrder());
             }
 
             if (res.ResponseStatus === 400) {

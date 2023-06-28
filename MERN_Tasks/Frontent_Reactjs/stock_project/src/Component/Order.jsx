@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { PostOrder, GetOrder, DeleteOrderData } from '../Redux/Action/OrderAction';
 import { GetStockData } from '../Redux/Action/StockAction';
-import swal from 'sweetalert';
 import DataTable from "react-data-table-component";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loader from './Loader';
 
 export default function Order() {
 
@@ -13,27 +15,19 @@ export default function Order() {
         customer_name: "",
         order_qty: "",
         stockId: ""
-    })
-
+    });
     function ChangeFormValue(e) {
         setorderdata({ ...orderdata, [e.target.name]: e.target.value });
-    }
-
-    // const [orderrecords, setorderrecords] = useState([]);
-    const state = useSelector((state) => state?.orderData?.orderData?.data);
-    console.log("order data", state)
-    // setorderrecords(state)
-
+    };
+    const state = useSelector((state) => state?.orderData);
     const [formErrors, setFormErrors] = useState({});
+    const [closeModel, setCloseModel] = useState("");
 
     const stockstate = useSelector((state) => state?.stockData?.stockData);
 
-
-
     useEffect(() => {
         dispatch(GetOrder())
-
-    }, [])
+    }, []);
 
     function SubmitorderForm() {
 
@@ -41,24 +35,36 @@ export default function Order() {
         setFormErrors(errors);
 
         if (Object.keys(errors).length === 0) {
-            console.log("fbggfhngnj", orderdata)
-            dispatch(PostOrder(orderdata));
-            console.log("Order Data", orderdata);
-            swal("Data Added!", "Order Data Added Success!", "success");
-            setorderdata({
-                customer_name: "",
-                order_qty: "",
-                stockId: ""
-            })
-
+            dispatch(PostOrder(orderdata))
+                .then(() => {
+                    setorderdata({
+                        customer_name: "",
+                        order_qty: "",
+                        stockId: ""
+                    });
+                    toast("Order Added Success!");
+                    setCloseModel("modal");
+                });
         }
 
 
+    };
+
+
+    function ClearForm() {
+        setorderdata({
+            customer_name: "",
+            order_qty: "",
+            stockId: ""
+        });
     }
 
     function handleButtonClick(orderId) {
-
         dispatch(DeleteOrderData(orderId))
+            .then(() => {
+                toast("Order Deleted Success!");
+
+            });
     }
 
     const validate = (values, e) => {
@@ -88,6 +94,26 @@ export default function Order() {
         return errors;
     };
 
+    const customStyles = {
+        rows: {
+            style: {
+                minHeight: '72px', // override the row height
+            },
+        },
+        headCells: {
+            style: {
+                paddingLeft: '8px', // override the cell padding for head cells
+                paddingRight: '8px',
+            },
+        },
+        cells: {
+            style: {
+                paddingLeft: '8px', // override the cell padding for data cells
+                paddingRight: '8px',
+                color: 'light grey'
+            },
+        },
+    };
 
     const column = [
         {
@@ -124,31 +150,36 @@ export default function Order() {
         <>
             <div className="d-grid gap-2 p-4 col-6 mx-auto">
                 <button type="button" className="btn btn-info " data-bs-toggle="modal"
-                    data-bs-target="#postModal">
+                    data-bs-target="#orderModal">
                     <label htmlFor="">Add Order</label>
                 </button>
             </div>
 
-            <div className='stockdataTable'>
-                <DataTable
-                    columns={column}
-                    data={state}
-                    pagination
-                >
 
-                </DataTable>
+            {state?.loading ? (
+                <Loader></Loader>
+            ) : (
 
-            </div>
+                <div className='stockdataTable'>
+                    <DataTable
+                        columns={column}
+                        data={state?.orderData?.data}
+                        pagination
+                        customStyles={customStyles}
+                    >
+                    </DataTable>
+                </div>
+            )}
 
 
 
-
-            <div className="modal fade bg-secondary " id="postModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabIndex="-1" aria-hidden="true">
+            <div className="modal fade bg-secondary " id="orderModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-lg" >
                     <div className="modal-content" >
                         <div className="modal-header">
                             <h5 className="modal-title">Add Order Details</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" className="btn-close" onClick={ClearForm} data-bs-dismiss="modal" aria-label="Close"></button>
+                            <ToastContainer />
                         </div>
                         <form className="row g-2 p-2" id="partform">
                             <div className="mb-3">
@@ -164,11 +195,12 @@ export default function Order() {
                                 <p>{formErrors.order_qty}</p>
                             </div>
                             <div className="mb-3">
-                                <label className="form-label fontcolor"> <b>Category</b> </label>
+                                <label className="form-label fontcolor"> <b>Stock</b> </label>
                                 <select className="form-select" aria-label="Default select example" name='stockId' onChange={ChangeFormValue}>
+                                    <option  >Select the  Stock</option>
 
                                     {stockstate?.map((data, index) => (
-                                        <option value={data.id} >{data.stock_name}</option>
+                                        <option key={index} value={data.id} >{data.stock_name}</option>
                                     ))}
 
 
@@ -179,8 +211,9 @@ export default function Order() {
                         </form>
 
                         <div className="modal-footer justify-content-start">
-                            <button type="button" className="btn btn-primary" id="savepost" onClick={SubmitorderForm} >Save</button>
-                            <button type="button" className="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-primary" id="savepost" onClick={SubmitorderForm}
+                                data-bs-dismiss={closeModel} >Save</button>
+                            <button type="button" className="btn btn-light" onClick={ClearForm} data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>

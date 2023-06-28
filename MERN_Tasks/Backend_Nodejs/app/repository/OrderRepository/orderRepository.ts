@@ -5,7 +5,6 @@ class orderrepository {
 
 
     async postOrderDetails(orderdata: any) {
-        console.log("order repo", orderdata)
         let responseorder = await prisma.order.createMany({
             data: orderdata
         });
@@ -19,7 +18,7 @@ class orderrepository {
                 stock: true
             }
         });
-    
+
         return responseorder;
     }
 

@@ -6,11 +6,10 @@ import {
   GetStockData,
   DeleteStockData,
 } from "../Redux/Action/StockAction";
-import swal from "sweetalert";
 import DataTable from "react-data-table-component";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from './Loader';
 
 export default function Stock() {
   const dispatch = useDispatch();
@@ -18,50 +17,32 @@ export default function Stock() {
     stock_name: "",
     stock_qty: "",
   });
-
   const [closeModel, setCloseModel] = useState("");
-
   const [formErrors, setFormErrors] = useState({});
 
-  // const [stockrecords, setstockrecords] = useState([]);
-  const state = useSelector((state) => state?.stockData?.stockData);
-  //  console.log("stock data", state);
-  //  console.log("order lenth", state[1]?.order?.length);
+  const state = useSelector((state) => state?.stockData);
 
   function ChangeFormValue(e) {
     setstockdata({ ...stockdata, [e.target.name]: e.target.value });
   }
 
-  var a = JSON.stringify(stockdata);
-
   useEffect(() => {
     dispatch(GetStockData());
-    console.log("firstdvf");
+
   }, []);
-
-  // let a = JSON.stringify(stockdata);
-
-  // useEffect(() => {
-  //     dispatch(GetStockData())
-  //         .then(setstockrecords(state))
-
-  // }, [SubmitstockForm]);
 
   function SubmitstockForm() {
     const errors = validate(stockdata);
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      const found = state.find((obj) => {
+      const found = state?.stockData.find((obj) => {
         return obj.stock_name === stockdata.stock_name;
       });
 
       if (!found) {
         dispatch(PostStockData(stockdata))
-          // swal("Data Added!", "Post Data Added Success!", "success");
-
           .then(() => {
-            dispatch(GetStockData());
             setstockdata({
               stock_name: "",
               stock_qty: "",
@@ -69,17 +50,22 @@ export default function Stock() {
             toast("Stock Added Success!");
             setCloseModel("modal");
           });
-        // setstockdata({
-        //   stock_name: "",
-        //   stock_qty: "",
-        // });
-        // toast("Stock Added Success!");
-        // setCloseModel("modal");
       } else {
+        toast(" Warning !");
         alert(" Same Stock Found");
       }
     }
+  };
+
+
+  function ClearForm() {
+    setstockdata({
+      stock_name: "",
+      stock_qty: "",
+    });
   }
+
+
 
   const validate = (values, e) => {
     const errors = {};
@@ -100,12 +86,37 @@ export default function Stock() {
     return errors;
   };
 
-  function handleButtonClick(stockId) {
-    console.log("id ", stockId);
-    dispatch(DeleteStockData(stockId)).then(() => {
-      dispatch(GetStockData());
-    });
+  function handleButtonClick(data) {
+    if (data.order.length === 0) {
+      dispatch(DeleteStockData(data.id)).then(() => {
+        toast("Stock Deleted Success!");
+      });
+    } else {
+      toast(" Warning !");
+      alert(" As This Stock has Order, It Can't be Deleted");
+    }
   }
+
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: '72px', // override the row height
+      },
+    },
+    headCells: {
+      style: {
+        paddingLeft: '8px', // override the cell padding for head cells
+        paddingRight: '8px',
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: '8px', // override the cell padding for data cells
+        paddingRight: '8px',
+        color: 'light grey'
+      },
+    },
+  };
 
   const column = [
     {
@@ -140,12 +151,11 @@ export default function Stock() {
       cell: (row) => (
         <>
           <span
-            onClick={() => handleButtonClick(row.id)}
+            onClick={() => handleButtonClick(row)}
             className="btn btn-primary"
           >
             Delete
           </span>
-          {"     "}
         </>
       ),
       ignoreRowClick: true,
@@ -161,20 +171,27 @@ export default function Stock() {
           type="button"
           className="btn btn-warning "
           data-bs-toggle="modal"
-          data-bs-target="#postModal"
+          data-bs-target="#stockModal"
         >
           <label htmlFor="">Add Stock</label>
         </button>
         <ToastContainer />
       </div>
 
-      <div className="stockdataTable">
-        <DataTable columns={column} data={state} pagination></DataTable>
-      </div>
+      {state?.loading ? (
+        <Loader></Loader>
+      ) : (
+
+        <div className="stockdataTable">
+          <DataTable columns={column} data={state?.stockData} pagination customStyles={customStyles}></DataTable>
+        </div>
+      )};
+
+
 
       <div
         className="modal fade bg-secondary "
-        id="postModal"
+        id="stockModal"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         aria-labelledby="staticBackdropLabel"
@@ -188,10 +205,12 @@ export default function Stock() {
               <button
                 type="button"
                 className="btn-close"
+                onClick={ClearForm}
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
+
             <form className="row g-2 p-2" id="partform">
               <div className="mb-3">
                 <label className="form-label fontcolor">
@@ -241,6 +260,7 @@ export default function Stock() {
               <button
                 type="button"
                 className="btn btn-light"
+                onClick={ClearForm}
                 data-bs-dismiss="modal"
               >
                 Cancel
@@ -253,4 +273,4 @@ export default function Stock() {
   );
 }
 
-// data-bs-dismiss={closeModel}
+

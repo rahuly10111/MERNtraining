@@ -40,6 +40,8 @@
 .stockdataTable {
   padding: 50px 10%;
   background-color: gray;
+  border: 1px solid black;
+  border-radius: 10px !important;
 }
 
 p {
@@ -153,3 +155,12 @@ p {
   color: rgb(27, 68, 253) !important;
   border-bottom: 3px solid rgb(4, 0, 255) !important;
 }
+
+.gocYik {
+  background-color: rgb(193 181 181) !important;
+}
+
+/* .jzrolw, .kqWIVd{
+  border: 1px solid black;
+  border-radius: 10px !important;
+} */
